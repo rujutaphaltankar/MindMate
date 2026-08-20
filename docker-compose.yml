@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    environment:
+      FLASK_DEBUG: "0"
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-change-me-in-production}
+      MONGO_URI: mongodb://mongo:27017/mindmate_ai
+      FRONTEND_ORIGIN: http://localhost:5173
+      AI_PROVIDER: ${AI_PROVIDER:-rule_based}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+    ports:
+      - "5000:5000"
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+
+volumes:
+  mongo_data:

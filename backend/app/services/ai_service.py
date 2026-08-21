@@ -157,8 +157,15 @@ def _rule_based_chat(message: str, history: list[dict]) -> str:
         return random.choice(available if available else pool)
 
     # ── Greetings ─────────────────────────────────────────────────────────────
-    greetings = {"hi", "hello", "hey", "howdy", "good morning", "good evening", "good afternoon"}
-    if any(g in lower for g in greetings) and len(lower.split()) <= 5:
+    # Use word-set intersection for single-word greetings to avoid matching
+    # substrings like "hi" inside "this", "think", "their", etc.
+    single_word_greetings = {"hi", "hey", "hello", "howdy"}
+    multi_word_greetings = {"good morning", "good evening", "good afternoon"}
+    is_greeting = (
+        bool(words & single_word_greetings) or
+        any(g in lower for g in multi_word_greetings)
+    )
+    if is_greeting and len(lower.split()) <= 5:
         return pick([
             "Hey! It's really nice to have you here. How are you feeling today? 😊",
             "Hello! I'm glad you stopped by. What's on your mind right now?",
@@ -168,9 +175,13 @@ def _rule_based_chat(message: str, history: list[dict]) -> str:
         ])
 
     # ── Self-harm / Crisis (hard-coded safety, always same) ───────────────────
-    crisis_words = {"suicide", "kill myself", "end my life", "self-harm", "cut myself",
-                    "hurt myself", "don't want to live", "not want to be here"}
-    if any(c in lower for c in crisis_words):
+    # Check against both word-set (whole words like "suicide") and substrings
+    # for multi-word phrases like "kill myself", "end my life", etc.
+    crisis_single = {"suicide"}
+    crisis_phrases = {"kill myself", "end my life", "self-harm", "cut myself",
+                      "hurt myself", "don't want to live", "not want to be here",
+                      "want to die", "thinking of suicide", "thinking about suicide"}
+    if (words & crisis_single) or any(c in lower for c in crisis_phrases):
         return (
             "I'm really glad you shared that with me, and I want you to know you're not alone. "
             "What you're feeling matters deeply. Please reach out to a crisis helpline or someone "

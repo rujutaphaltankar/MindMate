@@ -45,7 +45,34 @@ db = _DBProxy()
 
 def init_db(mongo_uri: str):
     global _client, _db
-    _client = MongoClient(mongo_uri, tz_aware=True)
+    
+    import pymongo
+    from pymongo.errors import ServerSelectionTimeoutError
+    
+    use_mock = False
+    if "mongomock" in mongo_uri.lower():
+        use_mock = True
+    else:
+        try:
+            # Create a client with a 1.5s server selection timeout to test connection
+            print(f"Connecting to MongoDB at: {mongo_uri} ...")
+            test_client = pymongo.MongoClient(mongo_uri, tz_aware=True, serverSelectionTimeoutMS=1500)
+            # Force a connection check by requesting server info
+            test_client.server_info()
+            _client = test_client
+            print("Successfully connected to MongoDB.")
+        except ServerSelectionTimeoutError:
+            print("\n" + "="*80)
+            print(f"WARNING: Could not connect to MongoDB at: {mongo_uri}")
+            print("FALLING BACK to in-memory mongomock database for local testing.")
+            print("NOTE: Data will NOT be persisted across server restarts.")
+            print("="*80 + "\n")
+            use_mock = True
+            
+    if use_mock:
+        import mongomock
+        _client = mongomock.MongoClient(mongo_uri, tz_aware=True)
+
     _db = _client.get_default_database()
 
     # Indexes that enforce data integrity / authorization boundaries.

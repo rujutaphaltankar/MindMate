@@ -1,4 +1,4 @@
-<![CDATA[# Roadmap
+# Roadmap
 
 Tracks progress against the 10-phase build plan.
 
@@ -58,4 +58,3 @@ Tracks progress against the 10-phase build plan.
 - Docker/docker-compose, GitHub Actions CI (backend tests, frontend build, lint)
 - Deployment guide (Vercel/Netlify + Render/Railway + MongoDB Atlas)
 - Complete project documentation
-]]>

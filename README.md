@@ -1,4 +1,4 @@
-<![CDATA[# 🧠 MindMate AI — AI Mental Wellness Companion
+# 🧠 MindMate AI — AI Mental Wellness Companion
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](https://python.org)
@@ -426,4 +426,3 @@ Responsible AI invariants that all contributors must preserve.
 MIT — see [`LICENSE`](LICENSE).
 
 Built by [Rujuta Phaltankar](https://github.com/rujutaphaltankar).
-]]>

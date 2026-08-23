@@ -1,241 +1,429 @@
-# MindMate AI — AI Mental Wellness Companion
+<![CDATA[# 🧠 MindMate AI — AI Mental Wellness Companion
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](https://python.org)
+[![Flask](https://img.shields.io/badge/Flask-3.0-000000?logo=flask&logoColor=white)](https://flask.palletsprojects.com)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev)
+[![MongoDB](https://img.shields.io/badge/MongoDB-7-47A248?logo=mongodb&logoColor=white)](https://mongodb.com)
+[![CI](https://github.com/rujutaphaltankar/MindMate/actions/workflows/ci.yml/badge.svg)](https://github.com/rujutaphaltankar/MindMate/actions)
 
 A privacy-conscious mental wellness platform: mood tracking, private journaling, non-clinical AI
-reflection, an empathetic AI companion, wellness recommendations, meditation/breathing tools, and
+reflection, an empathetic AI companion, wellness recommendations, meditation & breathing tools, and
 an anonymous community — built as a full-stack, portfolio-ready project.
 
+> [!CAUTION]
 > **MindMate AI is not a medical device, therapist, psychologist, psychiatrist, or emergency
 > service.** It does not diagnose mental health conditions or provide medical treatment. If you
 > or someone you know is in crisis, contact local emergency services or a crisis line in your area.
 
-## Status: all 10 phases complete ✅
+---
 
-- ✅ Phase 1 — Project setup + authentication (JWT, bcrypt, protected routes)
-- ✅ Phase 2 — Dashboard + mood tracking (Recharts trends, Today's Overview, Quick Actions)
-- ✅ Phase 3 — Journal (CRUD, search, tags, strictly user-scoped)
-- ✅ Phase 4 — NLP emotion analysis (consent-gated, non-clinical wording)
-- ✅ Phase 5 — AI wellness companion chat (with safety gate on every message)
-- ✅ Phase 6 — Wellness toolkit (animated 4-7-8 breathing, meditation library)
-- ✅ Phase 7 — Insights & analytics (trends, careful "may be worth observing" language)
-- ✅ Phase 8 — Anonymous community (posts, comments, likes, reports — never exposes identity)
-- ✅ Phase 9 — Safety system & moderation + admin dashboard
-- ✅ Phase 10 — Testing, Docker, CI, deployment docs
+## ✨ Feature Highlights
+
+| Feature | Description |
+|---------|-------------|
+| 🎯 **Mood Tracking** | Daily mood, stress, energy & sleep logging with Recharts trend visualizations |
+| 📓 **Private Journaling** | Full CRUD with search, tags, date filtering — strictly user-scoped |
+| 🤖 **AI Companion Chat** | Empathetic, non-diagnostic conversation with safety gate on every message |
+| 🔬 **NLP Emotion Analysis** | Consent-gated, non-clinical sentiment analysis of journal entries |
+| 🧘 **Wellness Toolkit** | Animated 4-7-8 breathing exercise, guided meditation library, activity tracking |
+| 📊 **Insights & Analytics** | Trend analysis with careful "may be worth observing" language — never diagnoses |
+| 👥 **Anonymous Community** | Posts, comments, likes, reports — identity is never exposed |
+| 🛡️ **Safety System** | Real-time content classification; crisis resources served from DB, not hard-coded |
+| 🔒 **Privacy Controls** | Granular consent settings, full data/account deletion, no soft-delete traps |
+| 👑 **Admin Dashboard** | Aggregate stats, report moderation, crisis resource management |
+
+---
+
+## 📋 Project Status — All 10 Phases Complete ✅
+
+| Phase | Scope | Status |
+|-------|-------|--------|
+| 1 | Project setup + authentication (JWT, bcrypt, protected routes) | ✅ |
+| 2 | Dashboard + mood tracking (Recharts trends, Today's Overview, Quick Actions) | ✅ |
+| 3 | Journal (CRUD, search, tags, strictly user-scoped) | ✅ |
+| 4 | NLP emotion analysis (consent-gated, non-clinical wording) | ✅ |
+| 5 | AI wellness companion chat (with safety gate on every message) | ✅ |
+| 6 | Wellness toolkit (animated 4-7-8 breathing, meditation library) | ✅ |
+| 7 | Insights & analytics (trends, careful "may be worth observing" language) | ✅ |
+| 8 | Anonymous community (posts, comments, likes, reports — never exposes identity) | ✅ |
+| 9 | Safety system & moderation + admin dashboard | ✅ |
+| 10 | Testing, Docker, CI, deployment docs | ✅ |
 
 **35/35 backend tests passing** (pytest + mongomock) · **Frontend build clean** (Vite + Vitest)
 
-## Tech stack
+---
 
-| Layer    | Tech |
-|----------|------|
-| Frontend | React 18, Vite, Tailwind CSS, React Router, Axios, Recharts |
-| Backend  | Python, Flask, Flask-CORS, Flask-JWT-Extended |
-| Database | MongoDB (PyMongo) |
-| AI/NLP   | Pluggable: Anthropic Claude API, or a zero-dependency rule-based fallback |
-| Deploy   | Docker, docker-compose, GitHub Actions CI |
+## 🛠️ Tech Stack
 
-## Architecture
+| Layer | Tech |
+|-------|------|
+| **Frontend** | React 18, Vite 5, Tailwind CSS 3, React Router 6, Axios, Recharts |
+| **Backend** | Python 3.10+, Flask 3.0, Flask-CORS, Flask-JWT-Extended |
+| **Database** | MongoDB 7 (PyMongo 4.8) |
+| **AI / NLP** | Pluggable — Anthropic Claude API or zero-dependency rule-based fallback |
+| **Testing** | pytest + mongomock (backend), Vitest + Testing Library (frontend) |
+| **Deploy** | Docker, docker-compose, GitHub Actions CI |
+
+---
+
+## 🏗️ Architecture
 
 ```
-React Frontend  →  REST API  →  Flask Backend  →  MongoDB
-                                     │
-                                     ├── Authentication
-                                     ├── User Management
-                                     ├── Journal Service
-                                     ├── Mood Service
-                                     ├── AI Service (analyze + chat, pluggable provider)
-                                     ├── Recommendation / Insights Service
-                                     ├── Community Service
-                                     ├── Safety Service (classifies every chat msg + post)
-                                     ├── Resource Service (crisis directory, DB-configurable)
-                                     └── Admin Service (aggregate stats + report review)
+┌──────────────────┐       ┌─────────────┐       ┌──────────────┐
+│  React Frontend  │──────▶│  REST API   │──────▶│   MongoDB    │
+│  (Vite + TW)     │  HTTP │  (Flask)    │       │  (PyMongo)   │
+└──────────────────┘       └──────┬──────┘       └──────────────┘
+                                  │
+                    ┌─────────────┼─────────────┐
+                    │             │             │
+               ┌────▼────┐  ┌────▼────┐  ┌────▼────┐
+               │  Auth   │  │   AI    │  │ Safety  │
+               │ Service │  │ Service │  │ Service │
+               └─────────┘  └─────────┘  └─────────┘
+                    │
+        ┌───────────┼───────────┬───────────┬───────────┐
+   ┌────▼────┐ ┌────▼────┐ ┌────▼────┐ ┌────▼────┐ ┌────▼────┐
+   │  Mood   │ │ Journal │ │Wellness │ │Community│ │  Admin  │
+   │ Service │ │ Service │ │ Service │ │ Service │ │ Service │
+   └─────────┘ └─────────┘ └─────────┘ └─────────┘ └─────────┘
 ```
 
-## AI service — works with zero setup
+---
 
-`backend/app/services/ai_service.py` defaults to `AI_PROVIDER=rule_based`, a small
+## 🤖 AI Service — Works with Zero Setup
+
+[`ai_service.py`](backend/app/services/ai_service.py) defaults to `AI_PROVIDER=rule_based`, a
 keyword-based sentiment/reply engine with **no external dependency or API key** — the whole
-app works out of the box. Set `AI_PROVIDER=anthropic` and `ANTHROPIC_API_KEY=...` in
-`backend/.env` to use Claude instead; if the API call ever fails, it silently falls back to
-the rule-based engine so the app never breaks.
+app works out of the box.
 
-## Safety system
+Set `AI_PROVIDER=anthropic` and `ANTHROPIC_API_KEY=...` in `backend/.env` to use Claude instead;
+if the API call ever fails, it silently falls back to the rule-based engine so the app never breaks.
+
+---
+
+## 🛡️ Safety System
 
 Every message sent to the AI companion, and every community post/comment, passes through
-`app/services/safety_service.py` first. Messages flagged as high-risk (self-harm, suicidal
-intent, violence) skip the normal AI reply and instead return a caring, non-judgmental message
-plus the crisis resource directory — which is stored in MongoDB (`resources` collection) and
-manageable from the admin dashboard, not hard-coded in the frontend.
+[`safety_service.py`](backend/app/services/safety_service.py) first. Messages flagged as
+high-risk (self-harm, suicidal intent, violence) skip the normal AI reply and instead return a
+caring, non-judgmental message plus the crisis resource directory — stored in MongoDB
+(`resources` collection) and manageable from the admin dashboard, not hard-coded in the frontend.
 
-## Project structure
+---
+
+## 📁 Project Structure
 
 ```
-mindmate-ai/
+mindmate-ai-complete/
 ├── backend/
 │   ├── app/
-│   │   ├── __init__.py            # Flask app factory, blueprint registration, resource seeding
-│   │   ├── config.py              # env-driven config
-│   │   ├── extensions.py          # db (safe proxy), jwt, cors
-│   │   ├── models/                # user, mood, journal, chat, wellness, community
-│   │   ├── routes/                # auth, user, mood, journal, ai, wellness, insights,
-│   │   │                          # community, resources, admin, privacy
-│   │   ├── services/               # ai_service, safety_service, resource_service
-│   │   └── utils/                  # validators, admin decorator
-│   ├── tests/                      # 35 tests across every route module
+│   │   ├── __init__.py              # Flask app factory, blueprint registration, resource seeding
+│   │   ├── config.py                # Env-driven configuration
+│   │   ├── extensions.py            # db (safe proxy), jwt, cors
+│   │   ├── models/
+│   │   │   ├── user.py              # User model + auth helpers
+│   │   │   ├── mood.py              # Mood records
+│   │   │   ├── journal.py           # Journal entries
+│   │   │   ├── chat.py              # Chat sessions & messages
+│   │   │   ├── wellness.py          # Activities & completion tracking
+│   │   │   └── community.py         # Posts, comments, reports
+│   │   ├── routes/
+│   │   │   ├── auth.py              # Register, login, logout, refresh
+│   │   │   ├── user.py              # Profile & privacy settings
+│   │   │   ├── mood.py              # Mood CRUD
+│   │   │   ├── journal.py           # Journal CRUD + search
+│   │   │   ├── ai.py                # Analyze & chat endpoints
+│   │   │   ├── wellness.py          # Activity catalog & completion
+│   │   │   ├── insights.py          # Trends & recommendations
+│   │   │   ├── community.py         # Anonymous posts, likes, reports
+│   │   │   ├── resources.py         # Public crisis resource directory
+│   │   │   ├── admin.py             # Stats, report review, resource mgmt
+│   │   │   └── privacy.py           # Data & account deletion
+│   │   ├── services/
+│   │   │   ├── ai_service.py        # Pluggable AI provider (Claude / rule-based)
+│   │   │   ├── safety_service.py    # Content safety classifier
+│   │   │   └── resource_service.py  # Crisis resource seeding & management
+│   │   └── utils/
+│   │       ├── validators.py        # Input validation helpers
+│   │       └── decorators.py        # Admin role decorator
+│   ├── tests/                       # 35 tests across 7 test modules
+│   ├── scripts/
+│   │   └── make_admin.py            # Promote a user to admin role
 │   ├── Dockerfile
 │   ├── requirements.txt
 │   └── .env.example
 ├── frontend/
 │   ├── src/
-│   │   ├── api/                    # one module per backend resource
-│   │   ├── components/             # AppShell, ProtectedRoute, FormField
-│   │   ├── context/                # AuthContext
-│   │   ├── pages/                  # Landing, Login, Register, Dashboard, Mood, Journal,
-│   │   │                          # Companion, Toolkit, Insights, Community, GetHelp,
-│   │   │                          # PrivacySettings, Profile, Admin
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   ├── Dockerfile, nginx.conf
+│   │   ├── api/                     # One module per backend resource (11 modules)
+│   │   ├── components/
+│   │   │   ├── AppShell.jsx         # Sidebar navigation layout
+│   │   │   ├── ProtectedRoute.jsx   # Auth guard wrapper
+│   │   │   └── FormField.jsx        # Reusable form input
+│   │   ├── context/
+│   │   │   └── AuthContext.jsx      # JWT auth state + silent refresh
+│   │   ├── pages/
+│   │   │   ├── Landing.jsx          # Public landing page
+│   │   │   ├── Login.jsx            # Login form
+│   │   │   ├── Register.jsx         # Registration form
+│   │   │   ├── Dashboard.jsx        # Overview + quick actions
+│   │   │   ├── Profile.jsx          # User profile management
+│   │   │   ├── PrivacySettings.jsx  # Granular consent controls
+│   │   │   ├── GetHelp.jsx          # Crisis resources page
+│   │   │   ├── mood/               # Mood tracking & trends
+│   │   │   ├── journal/            # Journal entries & editor
+│   │   │   ├── companion/          # AI chat interface
+│   │   │   ├── toolkit/            # Breathing & meditation
+│   │   │   ├── insights/           # Analytics & recommendations
+│   │   │   ├── community/          # Anonymous community feed
+│   │   │   └── admin/              # Admin dashboard
+│   │   ├── App.jsx                  # Router & layout
+│   │   └── main.jsx                 # Entry point
+│   ├── Dockerfile
+│   ├── nginx.conf
 │   ├── tailwind.config.js
 │   └── .env.example
-├── docker-compose.yml
-├── .github/workflows/ci.yml
-└── docs/roadmap.md
+├── docker-compose.yml               # MongoDB + backend + frontend
+├── .github/workflows/ci.yml         # Backend tests, frontend build + lint
+├── docs/roadmap.md                  # 10-phase build plan
+├── CONTRIBUTING.md
+├── LICENSE                          # MIT
+└── .gitignore
 ```
 
-## Getting started (local development)
+---
+
+## 🚀 Getting Started (Local Development)
 
 ### Prerequisites
-- Node.js 18+, Python 3.10+
-- A running MongoDB instance (local or MongoDB Atlas)
+
+- **Node.js** 18+ and **npm**
+- **Python** 3.10+
+- A running **MongoDB** instance (local or [MongoDB Atlas](https://www.mongodb.com/atlas))
 
 ### Backend
+
 ```bash
 cd backend
 cp .env.example .env
-# edit .env: set JWT_SECRET_KEY (generate with the command in the file) and MONGO_URI
+# Edit .env → set JWT_SECRET_KEY and MONGO_URI
 pip install -r requirements.txt
-python run.py          # http://localhost:5000
+python run.py                    # → http://localhost:5000
 ```
 
 Run tests:
 ```bash
 pip install mongomock
-pytest -v               # 35 tests
+pytest -v                        # 35 tests
 ```
 
 ### Frontend
+
 ```bash
 cd frontend
 npm install
-npm run dev              # http://localhost:5173 (proxies /api to localhost:5000)
+npm run dev                      # → http://localhost:5173 (proxies /api → localhost:5000)
 ```
 
-Run tests / build:
+Run tests & build:
 ```bash
 npm test
 npm run build
 ```
 
-## Running with Docker (all services at once)
+---
+
+## 🐳 Running with Docker
 
 ```bash
-cp backend/.env.example backend/.env   # optional: only needed to customize
+cp backend/.env.example backend/.env          # optional — only to customize
 export JWT_SECRET_KEY=$(python -c "import secrets; print(secrets.token_hex(32))")
 docker compose up --build
 ```
-- Frontend: http://localhost:5173
-- Backend: http://localhost:5000
-- MongoDB: localhost:27017 (persisted in a named volume)
 
-## Making a user an admin
+| Service | URL |
+|---------|-----|
+| Frontend | http://localhost:5173 |
+| Backend | http://localhost:5000 |
+| MongoDB | `localhost:27017` (persisted in a named volume) |
 
-The admin dashboard (`/admin`) requires `role: "admin"` on a user document. Promote a user
-after they've registered:
+---
+
+## 🔑 Environment Variables
+
+### Backend (`backend/.env`)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `JWT_SECRET_KEY` | **Yes** | — | Secret for signing JWTs (generate with `python -c "import secrets; print(secrets.token_hex(32))"`) |
+| `MONGO_URI` | **Yes** | `mongodb://localhost:27017/mindmate_ai` | MongoDB connection string |
+| `FRONTEND_ORIGIN` | **Yes** | `http://localhost:5173` | Allowed CORS origin |
+| `AI_PROVIDER` | No | `rule_based` | `rule_based` or `anthropic` |
+| `ANTHROPIC_API_KEY` | No | — | Required only when `AI_PROVIDER=anthropic` |
+| `FLASK_DEBUG` | No | `1` | Set to `0` in production |
+
+### Frontend (`frontend/.env`)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `VITE_API_URL` | No | `http://localhost:5000/api` | Backend API URL (Vite proxies `/api` in dev) |
+
+---
+
+## 👑 Making a User an Admin
+
+The admin dashboard (`/admin`) requires `role: "admin"` on the user document. After registering a
+user, promote them:
+
 ```bash
 cd backend
 python scripts/make_admin.py user@example.com
 ```
 
-## Deploying to production
+---
 
-| Component | Suggested host |
-|-----------|-----------------|
-| Frontend  | Vercel, Netlify, or the provided Nginx Docker image |
-| Backend   | Render, Railway, Fly.io, or any Docker host |
-| Database  | MongoDB Atlas (free tier is enough to start) |
+## ☁️ Deploying to Production
 
-Steps:
-1. Create a MongoDB Atlas cluster, get the connection string.
-2. Deploy the backend (Docker image from `backend/Dockerfile`, or directly via
-   `gunicorn run:app`). Set env vars: `JWT_SECRET_KEY`, `MONGO_URI` (Atlas string),
-   `FRONTEND_ORIGIN` (your deployed frontend URL), optionally `AI_PROVIDER` +
+| Component | Suggested Host |
+|-----------|----------------|
+| Frontend | Vercel, Netlify, or the provided Nginx Docker image |
+| Backend | Render, Railway, Fly.io, or any Docker host |
+| Database | MongoDB Atlas (free tier is enough to start) |
+
+**Steps:**
+
+1. Create a MongoDB Atlas cluster and get the connection string.
+2. Deploy the backend (Docker image from `backend/Dockerfile`, or `gunicorn run:app`). Set env
+   vars: `JWT_SECRET_KEY`, `MONGO_URI`, `FRONTEND_ORIGIN`, and optionally `AI_PROVIDER` +
    `ANTHROPIC_API_KEY`.
-3. Deploy the frontend (`npm run build`, upload `dist/` to Vercel/Netlify, or use the
-   Nginx Docker image). Set `VITE_API_URL` to your deployed backend URL + `/api`.
-4. Update CORS: the backend only accepts requests from `FRONTEND_ORIGIN`, so double-check
-   it matches your deployed frontend's URL exactly.
-5. Replace the seeded crisis resources in `app/services/resource_service.py` (or via the
-   admin dashboard) with verified, up-to-date numbers for your target region(s) before
-   going live — never rely on the defaults for a real deployment.
+3. Deploy the frontend (`npm run build` → upload `dist/` to Vercel/Netlify, or use the Nginx
+   Docker image). Set `VITE_API_URL` to your deployed backend URL + `/api`.
+4. Update CORS — the backend only accepts requests from `FRONTEND_ORIGIN`, so ensure it matches
+   your deployed frontend URL exactly.
+5. Replace the seeded crisis resources (via admin dashboard or
+   [`resource_service.py`](backend/app/services/resource_service.py)) with verified, up-to-date
+   numbers for your target region(s) — never rely on the defaults for a real deployment.
 
-## Putting this on GitHub
+---
 
-```bash
-cd mindmate-ai
-git init
-git add .
-git commit -m "Initial commit: MindMate AI - full-stack wellness companion"
-git branch -M main
-git remote add origin https://github.com/<your-username>/mindmate-ai.git
-git push -u origin main
-```
-`.gitignore` already excludes `.env`, `node_modules/`, `dist/`, and Python cache directories —
-double check `git status` before your first push to be sure no secrets are staged.
+## 📡 API Reference
 
-## API reference
+### Authentication
 
 | Method | Endpoint | Auth | Description |
-|--------|----------|------|--------------|
-| POST | `/api/auth/register` | - | Create account |
-| POST | `/api/auth/login` | - | Log in |
-| POST | `/api/auth/refresh` | refresh token | New access token |
-| POST | `/api/auth/logout` | access token | Stateless logout |
-| GET/PUT | `/api/user/profile` | access token | View/update profile + privacy settings |
-| POST/GET | `/api/mood` | access token | Create/list mood records |
-| PUT/DELETE | `/api/mood/:id` | access token | Update/delete a mood record |
-| POST/GET | `/api/journal` | access token | Create/list journal entries (search, tag filter) |
-| GET/PUT/DELETE | `/api/journal/:id` | access token | Single entry ops |
-| POST | `/api/ai/analyze` | access token | Non-clinical sentiment analysis (consent-gated) |
-| POST | `/api/ai/chat` | access token | Chat with the AI companion (safety-gated) |
-| GET | `/api/ai/chat/sessions` | access token | List chat sessions |
-| GET | `/api/ai/chat/sessions/:id/messages` | access token | Session history |
-| GET | `/api/wellness` | access token | Activity catalog |
-| POST | `/api/wellness/:id/complete` | access token | Log a completed activity |
-| GET | `/api/wellness/history` | access token | Completion history |
-| GET | `/api/insights` | access token | Summary + trend + observations |
-| GET | `/api/insights/recommendations` | access token | Personalized suggestions |
-| GET/POST | `/api/community` | access token | List/create anonymous posts |
-| POST | `/api/community/:id/like` | access token | Toggle like |
-| DELETE | `/api/community/:id` | access token | Delete own post |
-| GET/POST | `/api/community/:id/comments` | access token | Comments |
-| POST | `/api/community/:id/report` | access token | Report a post |
-| GET | `/api/resources` | - | Public crisis/wellness resource directory |
-| GET | `/api/admin/stats` | admin | Aggregate platform stats |
-| GET/PUT | `/api/admin/reports` | admin | Review/resolve reports |
-| GET/POST/DELETE | `/api/admin/resources` | admin | Manage crisis resources |
-| DELETE | `/api/privacy/journal` | access token | Delete all journal + mood data |
-| DELETE | `/api/privacy/account` | access token | Delete account + all data |
+|--------|----------|------|-------------|
+| POST | `/api/auth/register` | — | Create account |
+| POST | `/api/auth/login` | — | Log in, returns access + refresh tokens |
+| POST | `/api/auth/refresh` | Refresh token | Issue new access token |
+| POST | `/api/auth/logout` | Access token | Stateless logout |
 
-## Security & privacy
+### User
 
-- Passwords hashed with bcrypt; JWTs read only from the `Authorization` header.
-- Every journal/mood/chat/activity query is scoped to `user_id` at the database level -
-  verified by cross-user isolation tests.
-- AI journal analysis only runs with explicit consent (`privacy_settings.allow_ai_analysis`).
-- Community posts never expose the author's name or email.
-- Admins get aggregate stats and moderation tools only - never direct journal access.
-- Full account/journal deletion endpoints, no soft-delete trap.
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/api/user/profile` | Access token | View profile + privacy settings |
+| PUT | `/api/user/profile` | Access token | Update profile + privacy settings |
 
-## License
+### Mood
 
-MIT - see `LICENSE`.
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| POST | `/api/mood` | Access token | Create mood record |
+| GET | `/api/mood` | Access token | List mood records |
+| PUT | `/api/mood/:id` | Access token | Update mood record |
+| DELETE | `/api/mood/:id` | Access token | Delete mood record |
+
+### Journal
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| POST | `/api/journal` | Access token | Create journal entry |
+| GET | `/api/journal` | Access token | List entries (search, tag filter) |
+| GET | `/api/journal/:id` | Access token | Get single entry |
+| PUT | `/api/journal/:id` | Access token | Update entry |
+| DELETE | `/api/journal/:id` | Access token | Delete entry |
+
+### AI
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| POST | `/api/ai/analyze` | Access token | Non-clinical sentiment analysis (consent-gated) |
+| POST | `/api/ai/chat` | Access token | Chat with the AI companion (safety-gated) |
+| GET | `/api/ai/chat/sessions` | Access token | List chat sessions |
+| GET | `/api/ai/chat/sessions/:id/messages` | Access token | Session message history |
+
+### Wellness
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/api/wellness` | Access token | Activity catalog |
+| POST | `/api/wellness/:id/complete` | Access token | Log a completed activity |
+| GET | `/api/wellness/history` | Access token | Completion history |
+
+### Insights
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/api/insights` | Access token | Summary + trends + observations |
+| GET | `/api/insights/recommendations` | Access token | Personalized suggestions |
+
+### Community
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/api/community` | Access token | List anonymous posts |
+| POST | `/api/community` | Access token | Create anonymous post |
+| POST | `/api/community/:id/like` | Access token | Toggle like |
+| DELETE | `/api/community/:id` | Access token | Delete own post |
+| GET | `/api/community/:id/comments` | Access token | List comments |
+| POST | `/api/community/:id/comments` | Access token | Add comment |
+| POST | `/api/community/:id/report` | Access token | Report a post |
+
+### Resources & Admin
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/api/resources` | — | Public crisis/wellness resource directory |
+| GET | `/api/admin/stats` | Admin | Aggregate platform statistics |
+| GET | `/api/admin/reports` | Admin | List reported content |
+| PUT | `/api/admin/reports` | Admin | Resolve a report |
+| GET | `/api/admin/resources` | Admin | List crisis resources |
+| POST | `/api/admin/resources` | Admin | Add crisis resource |
+| DELETE | `/api/admin/resources` | Admin | Remove crisis resource |
+
+### Privacy
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| DELETE | `/api/privacy/journal` | Access token | Delete all journal + mood data |
+| DELETE | `/api/privacy/account` | Access token | Delete account + all associated data |
+
+---
+
+## 🔐 Security & Privacy
+
+- **Password hashing** — bcrypt; JWTs read only from the `Authorization` header.
+- **Data isolation** — Every journal/mood/chat/activity query is scoped to `user_id` at the
+  database level, verified by cross-user isolation tests.
+- **Consent-gated AI** — Journal analysis only runs with explicit consent
+  (`privacy_settings.allow_ai_analysis`).
+- **Anonymous community** — Posts never expose the author's name or email.
+- **Admin boundaries** — Admins get aggregate stats and moderation tools only; never direct
+  journal access.
+- **True deletion** — Full account/journal deletion endpoints, no soft-delete trap.
+
+---
+
+## 🤝 Contributing
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for development setup, PR guidelines, and the
+Responsible AI invariants that all contributors must preserve.
+
+---
+
+## 📄 License
+
+MIT — see [`LICENSE`](LICENSE).
+
+Built by [Rujuta Phaltankar](https://github.com/rujutaphaltankar).
+]]>

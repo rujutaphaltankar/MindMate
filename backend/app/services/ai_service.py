@@ -174,6 +174,25 @@ def _rule_based_chat(message: str, history: list[dict]) -> str:
             "Hello! I'm here and ready to listen. What's been going on with you?",
         ])
 
+    direct_question_patterns = [
+        "how can i calm down",
+        "how can i stop",
+        "what should i do when",
+        "what can i do when",
+        "how do i calm",
+        "how do i stop",
+        "overthinking",
+        "feeling overwhelmed",
+        "overwhelmed and",
+    ]
+    if any(pattern in lower for pattern in direct_question_patterns):
+        return pick([
+            "I hear you. When your mind is racing, the quickest reset is to slow your body down before you try to solve the whole problem. Put both feet on the floor, breathe in for 4, hold for 4, and breathe out for 6 for 3 rounds. Then ask: 'What is the next tiny step, not the whole future?' That helps interrupt the spiral and makes the problem feel smaller.",
+            "That sounds like overwhelm and overthinking at the same time. Try this: pause for 60 seconds, take 3 slow breaths, and say to yourself, 'I do not need to solve everything right now.' Then write down only the next step you can take in the next 10 minutes. The goal is not to fix the whole day — just to calm the nervous system enough to think clearly.",
+            "You're not failing; your brain is overloaded. A useful reset is to breathe slower than your thoughts, then reduce the problem to one concrete action. For example: 'I can tidy my desk for 5 minutes,' or 'I can reply to one email.' Small steps usually help more than trying to fix everything at once.",
+            "When you feel overwhelmed, it helps to separate the feeling from the task. First, breathe slowly for a minute; then name the actual problem in one sentence; then choose one next action. If your mind keeps spiralling, gently bring it back to: 'What is the smallest possible next move?'",
+        ])
+
     # ── Self-harm / Crisis (hard-coded safety, always same) ───────────────────
     # Check against both word-set (whole words like "suicide") and substrings
     # for multi-word phrases like "kill myself", "end my life", etc.

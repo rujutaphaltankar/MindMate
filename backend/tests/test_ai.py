@@ -43,3 +43,16 @@ def test_chat_session_persists_history(auth_client):
     resp = client.get(f"/api/ai/chat/sessions/{session_id}/messages", headers=headers)
     messages = resp.get_json()["messages"]
     assert len(messages) == 4  # 2 user + 2 assistant
+
+
+def test_chat_answers_direct_question_helpfully(auth_client):
+    client, headers, _ = auth_client
+    resp = client.post(
+        "/api/ai/chat",
+        json={"message": "How can I calm down when I feel overwhelmed and keep overthinking everything?"},
+        headers=headers,
+    )
+    assert resp.status_code == 200
+    reply = resp.get_json()["reply"].lower()
+    assert "breathe" in reply or "breath" in reply or "overthink" in reply or "step" in reply
+    assert "i'm here" not in reply.lower() or "what's on your mind" not in reply.lower()

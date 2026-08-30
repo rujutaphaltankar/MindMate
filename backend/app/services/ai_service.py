@@ -127,17 +127,14 @@ def analyze_text(text: str) -> dict:
 
 
 _CHAT_SYSTEM_PROMPT = (
-    "You are MindMate — a warm, empathetic, and genuinely human-feeling AI companion "
-    "inside a mental wellness app. You converse naturally like a supportive, attentive friend on chat.\n"
-    "- Sound like a real person texting: use a warm, empathetic tone, genuine validation, and concise, natural phrasing (1-3 sentences).\n"
-    "- Avoid sounding like a rigid essay, robotic manual, or clinical checklist.\n"
-    "- Listen actively and validate their emotions ('That sounds so draining', 'I completely hear you', 'That makes total sense').\n"
-    "- Ask at most one gentle follow-up question to keep the conversation flowing naturally.\n"
-    "- Offer practical, gentle wellness ideas when relevant (like slow breathing, a short walk, or journaling), "
-    "never diagnose conditions or prescribe medication.\n"
-    "- If the user expresses self-harm or immediate crisis, respond with deep care and provide crisis support resources."
+    "You are MindMate — a warm, deeply empathetic, and responsive AI companion. "
+    "Your primary goals are to make the user feel genuinely heard, validated, and supported, and to enthusiastically fulfill their direct requests.\n\n"
+    "Core Guidelines:\n"
+    "1. Make the User Feel Heard: Always validate their feelings first ('That sounds so heavy', 'I completely understand why you feel that way', 'Thank you for sharing that with me'). Echo key details of what they told you.\n"
+    "2. Do What the User Asks: If the user asks you to do something (e.g. 'tell me something nice', 'give me a breathing prompt', 'cheer me up', 'suggest a quote', 'help me list 3 good things'), say something genuinely warm and do it immediately!\n"
+    "3. Conversational Human Tone: Speak in short, warm, chat-style paragraphs (1-3 sentences). Never sound robotic, preachy, or like a medical manual.\n"
+    "4. Safety First: Never diagnose conditions or prescribe medications. If self-harm/crisis is expressed, provide warm emergency resources immediately."
 )
-
 
 
 def _rule_based_chat(message: str, history: list[dict]) -> str:
@@ -156,9 +153,54 @@ def _rule_based_chat(message: str, history: list[dict]) -> str:
         available = [r for r in pool if r not in recent_replies]
         return random.choice(available if available else pool)
 
+    # ── Direct User Requests: "Say something nice", "Cheer me up", "Tell me something sweet" ─
+    nice_request_patterns = [
+        "say something nice", "tell me something nice", "cheer me up",
+        "say something sweet", "tell me something sweet", "encourage me",
+        "make me feel better", "say something good", "something positive"
+    ]
+    if any(pattern in lower for pattern in nice_request_patterns):
+        return pick([
+            "I would love to! You are doing so much better than you give yourself credit for. Taking time to care for your mind shows real self-compassion, and I'm genuinely proud of you for showing up today. You matter, and I'm really glad we're chatting. 🌿✨",
+            "Here is something I genuinely mean: your presence matters, and you are far more resilient than you realize. Even on heavy days, you keep taking steps forward. Give yourself grace today — you deserve kindness and peace. 💙",
+            "You asked for something nice, so here is a true thought: you are worthy of peace, happiness, and rest just as you are right now. You don't have to earn your worth. I'm really happy to be here supporting you today!",
+            "I hear you! Here's a gentle reminder: you have survived 100% of your hardest days so far, and you are growing stronger every single day. Take a deep breath and give yourself a warm smile — you are doing great.",
+        ])
+
+    # ── Direct User Requests: Breathing exercise / Calm down request ─────────
+    breathing_request_patterns = [
+        "give me a breathing exercise", "breathing exercise", "help me breathe",
+        "1-minute reset", "quick reset", "guide my breathing", "breathe with me"
+    ]
+    if any(pattern in lower for pattern in breathing_request_patterns):
+        return pick([
+            "I'd love to guide you through a quick reset right now! 🌿 Put your feet on the floor, relax your shoulders, and follow this: Inhale slowly for 4 seconds... Hold gently for 4 seconds... Exhale smoothly for 6 seconds. Do this 3 times with me. How is your body feeling now?",
+            "Let's do a 1-minute calm reset together! Take a deep breath in through your nose for 4 counts, hold it for 4, and let it all out through your mouth for 7. Repeat once more with me. You're doing great — let me know how you feel!",
+        ])
+
+    # ── Direct User Requests: Journal prompt ─────────────────────────────────
+    journal_request_patterns = [
+        "journal prompt", "give me a journal prompt", "what should i write",
+        "suggest a journal prompt", "prompt to write"
+    ]
+    if any(pattern in lower for pattern in journal_request_patterns):
+        return pick([
+            "Here is a soothing journal prompt for you today: 'What is one small thing that brought me comfort or relief today, and what is one heavy thought I am ready to let go of tonight?' Take your time writing whatever comes to mind! 📓",
+            "I have a great prompt for you: 'If a close friend were feeling the way I feel right now, what gentle words would I say to them?' Try writing your answer in your journal — it's a powerful way to practice self-kindness.",
+        ])
+
+    # ── Direct User Requests: Positive Quote ─────────────────────────────────
+    quote_request_patterns = [
+        "tell me a quote", "positive quote", "give me a quote", "inspiring quote", "quote"
+    ]
+    if any(pattern in lower for pattern in quote_request_patterns) and len(lower.split()) <= 6:
+        return pick([
+            "Here is a lovely quote for you: 'You don't have to see the whole staircase, just take the first step.' — Martin Luther King Jr. 🌱 Take it one tiny step at a time.",
+            "Here is a comforting thought: 'Almost everything will work again if you unplug it for a few minutes, including you.' — Anne Lamott. Remember to give yourself permission to pause.",
+            "Here is a favorite of mine: 'Peace comes from within. Do not seek it without.' — Buddha 🌿 You have the strength inside you.",
+        ])
+
     # ── Greetings ─────────────────────────────────────────────────────────────
-    # Use word-set intersection for single-word greetings to avoid matching
-    # substrings like "hi" inside "this", "think", "their", etc.
     single_word_greetings = {"hi", "hey", "hello", "howdy"}
     multi_word_greetings = {"good morning", "good evening", "good afternoon"}
     is_greeting = (
@@ -187,15 +229,12 @@ def _rule_based_chat(message: str, history: list[dict]) -> str:
     ]
     if any(pattern in lower for pattern in direct_question_patterns):
         return pick([
-            "I hear you. When your mind is racing, the quickest reset is to slow your body down before you try to solve the whole problem. Put both feet on the floor, breathe in for 4, hold for 4, and breathe out for 6 for 3 rounds. Then ask: 'What is the next tiny step, not the whole future?' That helps interrupt the spiral and makes the problem feel smaller.",
-            "That sounds like overwhelm and overthinking at the same time. Try this: pause for 60 seconds, take 3 slow breaths, and say to yourself, 'I do not need to solve everything right now.' Then write down only the next step you can take in the next 10 minutes. The goal is not to fix the whole day — just to calm the nervous system enough to think clearly.",
-            "You're not failing; your brain is overloaded. A useful reset is to breathe slower than your thoughts, then reduce the problem to one concrete action. For example: 'I can tidy my desk for 5 minutes,' or 'I can reply to one email.' Small steps usually help more than trying to fix everything at once.",
-            "When you feel overwhelmed, it helps to separate the feeling from the task. First, breathe slowly for a minute; then name the actual problem in one sentence; then choose one next action. If your mind keeps spiralling, gently bring it back to: 'What is the smallest possible next move?'",
+            "I hear you completely. When your mind is racing, the quickest reset is to slow your body down before trying to solve everything. Put both feet on the floor, breathe in for 4, hold for 4, and breathe out for 6. Then ask: 'What is the single smallest step I can take right now?' That helps interrupt the spiral.",
+            "That sounds like overwhelm and overthinking hitting all at once. Try this: pause for 60 seconds, take 3 slow breaths, and tell yourself: 'I do not need to solve the whole day right now.' Focus only on the next 10 minutes.",
+            "You're not failing; your brain is just overloaded. A useful reset is to breathe slower than your thoughts, then reduce the problem to one tiny action. You're doing fine — let's take it step by step.",
         ])
 
     # ── Self-harm / Crisis (hard-coded safety, always same) ───────────────────
-    # Check against both word-set (whole words like "suicide") and substrings
-    # for multi-word phrases like "kill myself", "end my life", etc.
     crisis_single = {"suicide"}
     crisis_phrases = {"kill myself", "end my life", "self-harm", "cut myself",
                       "hurt myself", "don't want to live", "not want to be here",
@@ -214,21 +253,9 @@ def _rule_based_chat(message: str, history: list[dict]) -> str:
                     "too much", "can't cope", "falling apart", "burned out", "burnout"}
     if any(w in lower for w in stress_words) or any(w in words for w in stress_words):
         return pick([
-            "That sounds like a lot to carry right now. Stress has a way of making everything feel "
-            "urgent at once. What's weighing on you the most at this moment?",
-            "I hear you — feeling overwhelmed is genuinely exhausting. When things pile up, "
-            "sometimes just naming one small thing you *can* control helps. Is there one thing "
-            "you could set aside or simplify today?",
-            "Burnout sneaks up on us, doesn't it? Your body and mind are telling you something "
-            "important. When did you last take even 10 minutes just for yourself?",
-            "That sounds really tough. Pressure from multiple directions at once is draining. "
-            "Have you been able to talk to anyone about this lately?",
-            "It makes sense you're feeling this way — you're dealing with a lot. "
-            "One thing that often helps is breaking things into tiny next steps. "
-            "What's the single smallest thing that would make tomorrow even slightly easier?",
-            "Feeling stretched thin is hard. Even a few slow, deep breaths right now — "
-            "inhale for 4, hold for 4, exhale for 8 — can help your nervous system settle a little. "
-            "What feels most urgent to tackle first?",
+            "That sounds like so much to carry right now, and I completely understand why you feel stressed. Stress makes everything feel urgent at once. What's weighing on you the most right now?",
+            "I hear you — feeling overwhelmed is genuinely exhausting. When things pile up, just naming one small thing you can control helps. What is one tiny thing we can simplify today?",
+            "Burnout is your mind telling you it needs a break. That pressure is real. When did you last give yourself even 10 minutes of complete downtime?",
         ])
 
     # ── Sadness / Loneliness ──────────────────────────────────────────────────
@@ -236,18 +263,9 @@ def _rule_based_chat(message: str, history: list[dict]) -> str:
                  "lonely", "alone", "isolated", "hopeless", "empty", "numb", "lost"}
     if any(w in lower for w in sad_words) or any(w in words for w in sad_words):
         return pick([
-            "I'm sorry you're feeling this way. That heaviness is real, and it makes sense "
-            "that you'd want to talk about it. Do you have any sense of what's brought this on?",
-            "Feeling low can be really isolating, even when there are people around. "
-            "I'm here with you right now. Would you like to tell me more about what's going on?",
-            "Sadness has its own rhythm — sometimes it just needs to be felt rather than fixed. "
-            "Is there something specific weighing on your heart, or does it feel more like a general cloud?",
-            "It's okay to not be okay. You don't have to put a brave face on here. "
-            "What's been the hardest part of your day?",
-            "Loneliness can feel so heavy, especially when you're surrounded by a busy world. "
-            "Is there someone in your life you feel comfortable reaching out to, even just to say hi?",
-            "I'm really glad you're talking about this instead of keeping it bottled up. "
-            "When you feel this way, what has helped even a little bit in the past?",
+            "I'm so sorry you're feeling low. That heaviness is real, and I'm really glad you shared it with me instead of keeping it in. Do you know what brought this on today?",
+            "Feeling low can be really isolating. Please know I'm right here with you listening. Would you like to tell me a bit more about what's going on?",
+            "It's completely okay not to be okay. You don't have to put on a brave face here with me. What's been the hardest part of your day?",
         ])
 
     # ── Anxiety / Worry / Fear ────────────────────────────────────────────────
@@ -255,21 +273,9 @@ def _rule_based_chat(message: str, history: list[dict]) -> str:
                      "afraid", "fear", "panic", "panic attack", "uneasy", "dread", "overthinking"}
     if any(w in lower for w in anxiety_words) or any(w in words for w in anxiety_words):
         return pick([
-            "Anxiety can feel really overwhelming — like your mind won't quiet down. "
-            "Is there something specific you're worried about, or is it more of a general unease?",
-            "I hear you. That constant 'what if' loop is exhausting. "
-            "Grounding yourself in the present can sometimes help — can you name 5 things "
-            "you can see right now? It sounds simple, but it actually works for many people.",
-            "Worry has a way of making future scenarios feel very real and immediate. "
-            "What's the worst thing your mind is afraid of right now? Sometimes naming it helps defuse it.",
-            "It's completely understandable to feel nervous about that. "
-            "Are you getting enough rest? Anxiety often gets louder when we're tired.",
-            "Panic can feel so physical — racing heart, tight chest. "
-            "If you're in that space right now, try breathing in slowly for 4 counts, "
-            "holding for 4, and breathing out for 6. I'm right here with you.",
-            "Overthinking is like a browser with too many tabs open. "
-            "One thing that can help is writing down the thoughts — it gets them out of the loop. "
-            "Have you tried journaling here in MindMate?",
+            "Anxiety can feel so intense — like your mind won't quiet down. I hear you. Is there something specific on your mind, or is it a general sense of unease?",
+            "I hear you. That constant 'what if' loop is so exhausting. Try naming 5 things you can see around you right now — grounding your senses really helps ease the noise.",
+            "Worry has a way of making future scenarios feel scary right now. What's the main thought your mind is stuck on? Naming it out loud with me can help defuse it.",
         ])
 
     # ── Anger / Frustration ───────────────────────────────────────────────────
@@ -277,36 +283,25 @@ def _rule_based_chat(message: str, history: list[dict]) -> str:
                    "annoyed", "irritated", "mad", "hate", "rage", "resentment"}
     if any(w in lower for w in anger_words) or any(w in words for w in anger_words):
         return pick([
-            "That frustration sounds really valid. When we feel unheard or blocked, "
-            "anger is a natural response. What happened, if you'd like to share?",
-            "Anger is often telling us something important — maybe a boundary was crossed, "
-            "or something deeply matters to you. What's at the heart of it?",
-            "It's okay to feel angry. Feeling it is very different from acting on it. "
-            "Is there a way you can give yourself some space to process it — a walk, "
-            "some music, or just writing it out?",
-            "That sounds genuinely frustrating. Being stuck or dismissed is so draining. "
-            "What do you think would help most right now — venting, problem-solving, or something else?",
-            "I hear the frustration in that. Sometimes when we're this activated, "
-            "even a minute of vigorous movement (shaking your hands, rolling your shoulders) "
-            "can help release some of the tension. Then we can think more clearly. What do you think?",
+            "That frustration sounds so valid. Feeling blocked or unheard naturally triggers anger. What happened, if you feel comfortable sharing?",
+            "I completely hear your frustration. Anger often tells us a boundary was crossed or something deeply matters. What feels like the core issue?",
         ])
 
-    # ── Tiredness / Exhaustion ────────────────────────────────────────────────
-    tired_words = {"tired", "exhausted", "fatigue", "fatigued", "drained", "sleep",
-                   "can't sleep", "insomnia", "sleepy", "no energy", "low energy"}
-    if any(w in lower for w in tired_words) or any(w in words for w in tired_words):
+    # ── Gratitude / Thanks ───────────────────────────────────────────────────
+    thanks_words = {"thank", "thanks", "thank you", "helpful", "appreciate"}
+    if any(w in lower for w in thanks_words):
         return pick([
-            "Rest is so important, and it sounds like your body is really asking for it. "
-            "Is this more physical tiredness, or does it feel more emotional and mental?",
-            "Running on empty is hard. Have you been sleeping alright, "
-            "or is sleep itself part of what's difficult right now?",
-            "Exhaustion makes everything harder — even small things feel heavy. "
-            "Is there anything you could let go of today, even temporarily, to create more breathing room?",
-            "It's okay to do less when you're this drained. Sometimes the most productive thing "
-            "is genuine rest — not just sleep, but real downtime. What does rest look like for you?",
-            "Sleep trouble can be really frustrating. A consistent wind-down routine "
-            "— same time each night, dim lights, no screens 30 min before bed — "
-            "can make a surprising difference over time. Has anything like that helped you before?",
+            "You are so very welcome! 💙 I'm always right here whenever you want to talk or unwind.",
+            "I'm so glad I could help! Take good care of yourself today, and drop by anytime. 🌿",
+            "Anytime at all! Thank you for sharing your thoughts with me.",
+        ])
+
+    # ── Bedtime / Sleep Wish ─────────────────────────────────────────────────
+    sleep_words = {"goodnight", "good night", "going to sleep", "heading to bed", "sleep well"}
+    if any(w in lower for w in sleep_words):
+        return pick([
+            "Good night! 🌙 Rest well, let go of today's thoughts, and sleep peacefully. I'll be here tomorrow!",
+            "Wishing you a peaceful night's sleep! Rest your body and mind — you did great today. ✨",
         ])
 
     # ── Happiness / Positivity ────────────────────────────────────────────────
@@ -315,107 +310,22 @@ def _rule_based_chat(message: str, history: list[dict]) -> str:
                    "good news", "celebrate", "thrilled", "love", "blessed"}
     if any(w in lower for w in happy_words) or any(w in words for w in happy_words):
         return pick([
-            "That's really wonderful to hear! 😊 What's brought on this good feeling?",
-            "It's so nice to hear some joy in your words! Tell me more — what happened?",
-            "Moments like these are worth holding onto. What made today feel special?",
-            "That's great! Celebrating wins — big or small — matters a lot for wellbeing. "
-            "What are you most proud of right now?",
-            "Love hearing that! Positive moments are worth savouring. "
-            "Is there someone you'd like to share this with too?",
-        ])
-
-    # ── Relationships / Social ────────────────────────────────────────────────
-    relationship_words = {"friend", "friends", "family", "partner", "boyfriend", "girlfriend",
-                          "relationship", "breakup", "fight", "argument", "conflict"}
-    if any(w in lower for w in relationship_words) or any(w in words for w in relationship_words):
-        return pick([
-            "Relationships can be such a source of support — and also of real pain. "
-            "What's been going on with the people around you?",
-            "It sounds like something happened with someone close to you. "
-            "Do you want to talk through what happened?",
-            "Our connections with others affect us so deeply. "
-            "How are you feeling about the situation right now — hurt, confused, something else?",
-            "Navigating relationships is genuinely hard sometimes. "
-            "What feels most difficult about this right now?",
-        ])
-
-    # ── Work / Study pressure ─────────────────────────────────────────────────
-    work_words = {"work", "job", "boss", "colleague", "coworker", "office", "career",
-                  "study", "studying", "university", "college", "assignment", "exam",
-                  "grade", "project", "meeting", "interview"}
-    if any(w in lower for w in work_words) or any(w in words for w in work_words):
-        return pick([
-            "Work and study pressures are so real and can take up so much mental space. "
-            "What's feeling the heaviest about it right now?",
-            "It sounds like things at work/school have been a lot lately. "
-            "Have you been able to draw any boundary between 'work time' and 'your time'?",
-            "That kind of pressure can really wear on you. "
-            "Is there someone at work or school you feel comfortable talking to about it?",
-            "Dealing with that in a work or academic setting is tough — "
-            "the stakes can feel so high. What would a good outcome look like for you?",
-        ])
-
-    # ── Wellness / Mindfulness ────────────────────────────────────────────────
-    wellness_words = {"meditate", "meditation", "breathe", "breathing", "mindfulness",
-                      "relax", "relaxation", "self-care", "self care", "journal", "journaling"}
-    if any(w in lower for w in wellness_words) or any(w in words for w in wellness_words):
-        return pick([
-            "That's a great instinct — taking care of yourself is so important. "
-            "What kind of self-care practice feels most helpful for you right now?",
-            "Mindfulness can really help quiet the noise. "
-            "Even 5 minutes of focused breathing can shift your whole mood. "
-            "Have you tried the breathing tools in MindMate's Wellness Toolkit?",
-            "Journaling is such a powerful way to process emotions. "
-            "Sometimes just getting thoughts out of your head and onto the page brings relief. "
-            "Have you been writing in your journal lately?",
-            "That's lovely — prioritising calm and presence is a genuine act of self-love. "
-            "What does your go-to way to unwind look like?",
-        ])
-
-    # ── Questions about MindMate ──────────────────────────────────────────────
-    if any(w in lower for w in ("what can you do", "what do you do", "help me", "how does this work",
-                                 "what is this", "who are you", "what are you")):
-        return pick([
-            "I'm MindMate — your personal wellness companion 💙 I'm here to listen without judgement, "
-            "help you reflect on how you're feeling, and suggest healthy coping strategies. "
-            "I'm not a therapist or doctor, but I care about how you're doing. "
-            "What would you like to talk about?",
-            "Great question! I'm here to be a supportive, non-judgemental space for you. "
-            "You can share how you're feeling, track your mood, journal your thoughts, "
-            "or explore breathing and meditation tools. What's on your mind today?",
-        ])
-
-    # ── Feeling better / Positive progress ────────────────────────────────────
-    better_words = {"better", "improving", "getting there", "progress", "hopeful", "more positive"}
-    if any(w in lower for w in better_words):
-        return pick([
-            "That's really encouraging to hear! 🌱 Even small steps forward matter. "
-            "What do you think has been helping?",
-            "I'm so glad things are looking up a little. "
-            "What's something you can do today to keep that momentum going?",
-            "Progress isn't always linear, but noticing improvement is really meaningful. "
-            "Give yourself credit for that. What feels different now compared to before?",
+            "That's so wonderful to hear! 😊 What brought on this great feeling today?",
+            "Love hearing that! Celebrating wins — big or small — is so important. What are you most proud of?",
+            "It's so nice to feel joy in your words! Tell me more about what happened!",
         ])
 
     # ── Generic conversational fallbacks ─────────────────────────────────────
-    # Try to ask something relevant based on the last thing the user said
     if history:
         return pick([
-            "Thank you for sharing that with me. Tell me more — I'm really listening.",
-            "I appreciate you opening up. How long have you been feeling this way?",
-            "That's really helpful context. How has this been affecting your day-to-day?",
-            "I hear you. What feels like the biggest thing you need right now — "
-            "someone to listen, or maybe some ideas on what to try?",
-            "Thanks for trusting me with that. What would feel most supportive for you right now?",
-            "I'm with you. Is there something specific you'd like to explore or work through together?",
-            "That makes a lot of sense. What's been helping you get through, even a little bit?",
+            "Thank you for sharing that with me — I'm really listening. Tell me more about how that feels for you.",
+            "I hear you completely. How has this been affecting you today?",
+            "Thanks for trusting me with that. What would feel most helpful for you right now — just venting, or exploring a quick reset together?",
         ])
 
     return pick([
-        "I'm here to listen and support you. What's been on your mind lately?",
-        "This is a safe space — feel free to share whatever you're comfortable with. What's going on?",
-        "Tell me what's on your mind. There's no rush and no judgement here. 💙",
-        "I'm glad you're here. How are you really doing today?",
+        "I'm here to listen and support you. What's on your mind today?",
+        "This is a safe space — feel free to share whatever you're comfortable with. I'm right here with you. 💙",
     ])
 
 
@@ -444,3 +354,4 @@ def generate_chat_reply(message: str, history: list[dict]) -> dict:
             return {"reply": _rule_based_chat(message, history), "provider": "rule_based"}
 
     return {"reply": _rule_based_chat(message, history), "provider": "rule_based"}
+

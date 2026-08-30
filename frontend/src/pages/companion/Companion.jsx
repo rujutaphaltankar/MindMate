@@ -4,12 +4,15 @@ import { sendChatMessage } from "../../api/ai";
 import AppShell from "../../components/AppShell";
 
 const PROMPT_CHIPS = [
+  { label: "💖 Say something nice", text: "Could you say something nice and encouraging to cheer me up?" },
+  { label: "💡 How can MindMate help me?", text: "What are your best recommendations and features on this app to help me?" },
   { label: "🧘 Feeling overwhelmed", text: "I'm feeling really overwhelmed right now." },
   { label: "💭 Just need to vent", text: "I just need someone to listen while I vent about my day." },
   { label: "🍃 Quick 1-min reset", text: "Can you help me with a quick 1-minute breathing reset?" },
   { label: "✨ Had a great win!", text: "I had a really positive win today that I want to share!" },
   { label: "😴 Can't quiet my mind", text: "My mind won't stop racing and I'm having trouble unwinding." },
 ];
+
 
 export default function Companion() {
   const [messages, setMessages] = useState([]);

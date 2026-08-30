@@ -127,13 +127,15 @@ def analyze_text(text: str) -> dict:
 
 
 _CHAT_SYSTEM_PROMPT = (
-    "You are MindMate — a warm, deeply empathetic, and responsive AI companion. "
-    "Your primary goals are to make the user feel genuinely heard, validated, and supported, and to enthusiastically fulfill their direct requests.\n\n"
+    "You are MindMate — a warm, deeply empathetic, and proactive AI companion. "
+    "Your primary goals are to make the user feel genuinely heard, offer helpful opinions & gentle guidance, "
+    "and suggest practical features within MindMate AI (like Mood Tracking, Private Journaling, Wellness Toolkit breathing/meditation, Insights, and Community) so the user gets real help.\n\n"
     "Core Guidelines:\n"
-    "1. Make the User Feel Heard: Always validate their feelings first ('That sounds so heavy', 'I completely understand why you feel that way', 'Thank you for sharing that with me'). Echo key details of what they told you.\n"
-    "2. Do What the User Asks: If the user asks you to do something (e.g. 'tell me something nice', 'give me a breathing prompt', 'cheer me up', 'suggest a quote', 'help me list 3 good things'), say something genuinely warm and do it immediately!\n"
-    "3. Conversational Human Tone: Speak in short, warm, chat-style paragraphs (1-3 sentences). Never sound robotic, preachy, or like a medical manual.\n"
-    "4. Safety First: Never diagnose conditions or prescribe medications. If self-harm/crisis is expressed, provide warm emergency resources immediately."
+    "1. Make the User Feel Heard: Always validate their feelings first ('That sounds so heavy', 'I completely understand why you feel that way'). Echo key details of what they shared.\n"
+    "2. Give Helpful Opinions & App Guidance: Offer gentle, actionable opinions on what they can do next. Suggest specific MindMate tools when appropriate (e.g. 'I'd recommend trying a 2-minute meditation in the Wellness Toolkit' or 'Logging this in Mood Tracking can help track trends').\n"
+    "3. Do What the User Asks: If the user asks you for something ('say something nice', 'give a quote', 'suggest a breathing exercise'), fulfill it with warmth immediately.\n"
+    "4. Conversational Human Tone: Speak in short, warm, chat-style paragraphs (1-3 sentences). Never sound robotic, preachy, or like a medical manual.\n"
+    "5. Safety First: Never diagnose conditions or prescribe medications. If self-harm/crisis is expressed, provide warm emergency resources immediately."
 )
 
 
@@ -152,6 +154,19 @@ def _rule_based_chat(message: str, history: list[dict]) -> str:
     def pick(pool: list[str]) -> str:
         available = [r for r in pool if r not in recent_replies]
         return random.choice(available if available else pool)
+
+    # ── App Help / Advice / Opinions / Feature Suggestions ───────────────────
+    app_help_patterns = [
+        "what can i do", "how can this app help", "what features",
+        "how to use", "give me an opinion", "give me advice",
+        "what should i do", "how can mindmate help", "what can you do to help"
+    ]
+    if any(pattern in lower for pattern in app_help_patterns) and not any(k in lower for k in ("calm down", "breathe", "journal")):
+        return pick([
+            "Here is my top recommendation to get the most out of MindMate! 🌿 If your mind is full, try writing a private entry in **Journaling**. If you need an instant physical reset, try the 4-7-8 breathing exercise in the **Wellness Toolkit**. And logging your daily entry in **Mood Tracking** will help us see your emotional trends over time!",
+            "Here's my honest opinion: starting small makes a big difference. I'd suggest taking 2 minutes for a guided meditation session in our **Wellness Toolkit**. You can also browse the **Anonymous Community** to see how others navigate similar moments, or check **Insights & Analytics** for your weekly trends. Which of these sounds best to start with?",
+            "MindMate is packed with gentle tools to help you! 💙 You can track your daily mood in **Mood Tracking**, write freely in **Private Journaling**, try a guided reset in the **Wellness Toolkit**, or explore our **Anonymous Community**. I'm also always right here whenever you want to chat!",
+        ])
 
     # ── Direct User Requests: "Say something nice", "Cheer me up", "Tell me something sweet" ─
     nice_request_patterns = [
@@ -174,8 +189,8 @@ def _rule_based_chat(message: str, history: list[dict]) -> str:
     ]
     if any(pattern in lower for pattern in breathing_request_patterns):
         return pick([
-            "I'd love to guide you through a quick reset right now! 🌿 Put your feet on the floor, relax your shoulders, and follow this: Inhale slowly for 4 seconds... Hold gently for 4 seconds... Exhale smoothly for 6 seconds. Do this 3 times with me. How is your body feeling now?",
-            "Let's do a 1-minute calm reset together! Take a deep breath in through your nose for 4 counts, hold it for 4, and let it all out through your mouth for 7. Repeat once more with me. You're doing great — let me know how you feel!",
+            "I'd love to guide you through a quick reset right now! 🌿 Put your feet on the floor, relax your shoulders, and follow this: Inhale slowly for 4 seconds... Hold gently for 4 seconds... Exhale smoothly for 6 seconds. Do this 3 times with me. (You can also try the full 4-7-8 timer in the **Wellness Toolkit**!)",
+            "Let's do a 1-minute calm reset together! Take a deep breath in through your nose for 4 counts, hold it for 4, and let it all out through your mouth for 7. Repeat once more with me. You're doing great!",
         ])
 
     # ── Direct User Requests: Journal prompt ─────────────────────────────────
@@ -185,9 +200,10 @@ def _rule_based_chat(message: str, history: list[dict]) -> str:
     ]
     if any(pattern in lower for pattern in journal_request_patterns):
         return pick([
-            "Here is a soothing journal prompt for you today: 'What is one small thing that brought me comfort or relief today, and what is one heavy thought I am ready to let go of tonight?' Take your time writing whatever comes to mind! 📓",
-            "I have a great prompt for you: 'If a close friend were feeling the way I feel right now, what gentle words would I say to them?' Try writing your answer in your journal — it's a powerful way to practice self-kindness.",
+            "Here is a soothing journal prompt for you today: 'What is one small thing that brought me comfort or relief today, and what is one heavy thought I am ready to let go of tonight?' Take your time writing this in **Private Journaling**! 📓",
+            "I have a great prompt for you: 'If a close friend were feeling the way I feel right now, what gentle words would I say to them?' Try writing your answer in your **Journal** — it's a powerful way to practice self-kindness.",
         ])
+
 
     # ── Direct User Requests: Positive Quote ─────────────────────────────────
     quote_request_patterns = [

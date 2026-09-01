@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import ThemeToggle from "../components/ThemeToggle";
 
 const pillars = [
   {
@@ -10,8 +11,8 @@ const pillars = [
         <path d="M21 21H3" strokeLinecap="round" />
       </svg>
     ),
-    color: "from-dusk-500/30 to-dusk-600/20",
-    iconColor: "text-dusk-300",
+    color: "from-dusk-500/20 to-dusk-600/10 dark:from-dusk-500/30 dark:to-dusk-600/20",
+    iconColor: "text-dusk-600 dark:text-dusk-300",
   },
   {
     title: "Journal",
@@ -22,8 +23,8 @@ const pillars = [
         <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    color: "from-sage-500/30 to-sage-600/20",
-    iconColor: "text-sage-300",
+    color: "from-sage-500/20 to-sage-600/10 dark:from-sage-500/30 dark:to-sage-600/20",
+    iconColor: "text-sage-600 dark:text-sage-300",
   },
   {
     title: "Reflect",
@@ -34,8 +35,8 @@ const pillars = [
         <path d="M12 8v4l3 3" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    color: "from-purple-500/25 to-purple-700/15",
-    iconColor: "text-purple-300",
+    color: "from-purple-500/20 to-purple-700/10 dark:from-purple-500/25 dark:to-purple-700/15",
+    iconColor: "text-purple-600 dark:text-purple-300",
   },
   {
     title: "Practice",
@@ -46,8 +47,8 @@ const pillars = [
         <circle cx="12" cy="10" r="2" />
       </svg>
     ),
-    color: "from-sand-300/20 to-sand-400/10",
-    iconColor: "text-sand-300",
+    color: "from-sand-300/30 to-sand-400/20 dark:from-sand-300/20 dark:to-sand-400/10",
+    iconColor: "text-sand-600 dark:text-sand-300",
   },
 ];
 
@@ -59,27 +60,29 @@ const stats = [
 
 export default function Landing() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-hero">
+    <div className="relative min-h-screen overflow-hidden bg-hero transition-colors duration-300">
       {/* Animated background orbs */}
       <div
-        className="orb w-[520px] h-[520px] bg-dusk-500/18 top-[-180px] left-[-120px] animate-float"
+        className="orb w-[520px] h-[520px] bg-dusk-500/12 dark:bg-dusk-500/18 top-[-180px] left-[-120px] animate-float"
         style={{ animationDelay: "0s" }}
       />
       <div
-        className="orb w-[400px] h-[400px] bg-sage-500/14 top-[60px] right-[-100px] animate-float-slow"
+        className="orb w-[400px] h-[400px] bg-sage-500/10 dark:bg-sage-500/14 top-[60px] right-[-100px] animate-float-slow"
         style={{ animationDelay: "-3s" }}
       />
       <div
-        className="orb w-[300px] h-[300px] bg-purple-600/12 bottom-[100px] left-[30%] animate-float-slower"
+        className="orb w-[300px] h-[300px] bg-purple-600/8 dark:bg-purple-600/12 bottom-[100px] left-[30%] animate-float-slower"
         style={{ animationDelay: "-6s" }}
       />
 
       {/* Nav */}
       <nav className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
-        <span className="font-display text-xl font-semibold text-white">
+        <span className="font-display text-xl font-semibold text-dusk-900 dark:text-white">
           MindMate <span className="text-gradient-sage">AI</span>
         </span>
         <div className="flex items-center gap-3">
+          <ThemeToggle />
+
           <Link
             to="/login"
             className="btn-ghost px-5 py-2 text-sm"
@@ -97,17 +100,17 @@ export default function Landing() {
 
       {/* Hero */}
       <main className="relative z-10 mx-auto max-w-5xl px-6 pb-28 pt-16 text-center">
-        <div className="inline-flex items-center gap-2 rounded-full border border-sage-500/25 bg-sage-500/8 px-4 py-1.5 text-xs font-medium text-sage-300 mb-8 stagger-1">
-          <span className="w-1.5 h-1.5 rounded-full bg-sage-400 animate-pulse" />
+        <div className="inline-flex items-center gap-2 rounded-full border border-sage-500/30 bg-sage-500/10 px-4 py-1.5 text-xs font-medium text-sage-700 dark:text-sage-300 mb-8 stagger-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-sage-500 animate-pulse" />
           Your private wellness companion
         </div>
 
-        <h1 className="font-display text-5xl leading-[1.1] text-white sm:text-6xl lg:text-7xl stagger-2">
+        <h1 className="font-display text-5xl leading-[1.1] text-dusk-900 dark:text-white sm:text-6xl lg:text-7xl stagger-2">
           A quiet place to check{" "}
           <span className="text-gradient-sage">in with yourself.</span>
         </h1>
 
-        <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-dusk-300 stagger-3">
+        <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-dusk-600 dark:text-dusk-300 stagger-3">
           MindMate AI helps you notice patterns in your mood, keep a private journal,
           and build small daily habits that support your wellbeing.
         </p>
@@ -131,8 +134,8 @@ export default function Landing() {
         <div className="mt-14 flex flex-wrap items-center justify-center gap-10 stagger-5">
           {stats.map((s) => (
             <div key={s.label} className="text-center">
-              <p className="font-display text-3xl font-semibold text-white">{s.value}</p>
-              <p className="mt-0.5 text-xs text-dusk-400">{s.label}</p>
+              <p className="font-display text-3xl font-semibold text-dusk-900 dark:text-white">{s.value}</p>
+              <p className="mt-0.5 text-xs text-dusk-500 dark:text-dusk-400">{s.label}</p>
             </div>
           ))}
         </div>
@@ -148,13 +151,13 @@ export default function Landing() {
               <div className={`inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-gradient-to-br ${p.color} ${p.iconColor} mb-4`}>
                 {p.icon}
               </div>
-              <h3 className="font-display text-lg text-white">{p.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-dusk-400">{p.copy}</p>
+              <h3 className="font-display text-lg text-dusk-900 dark:text-white">{p.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-dusk-600 dark:text-dusk-400">{p.copy}</p>
             </div>
           ))}
         </div>
 
-        <p className="mx-auto mt-16 max-w-xl text-xs leading-relaxed text-dusk-600">
+        <p className="mx-auto mt-16 max-w-xl text-xs leading-relaxed text-dusk-500 dark:text-dusk-600">
           MindMate AI is a wellness companion, not a medical device, therapist, or emergency
           service. It does not diagnose conditions or provide treatment. If you are in crisis or
           in danger, please contact local emergency services or a crisis line in your area.

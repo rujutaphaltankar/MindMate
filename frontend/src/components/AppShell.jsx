@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import ThemeToggle from "./ThemeToggle";
 import { useAuth } from "../context/AuthContext";
 
 const navItems = [
@@ -98,18 +99,13 @@ export default function AppShell({ children }) {
   const { user, logout } = useAuth();
 
   return (
-    <div className="min-h-screen" style={{ background: "#0e1020" }}>
+    <div className="min-h-screen bg-dusk-50 dark:bg-[#0e1020] text-dusk-900 dark:text-dusk-50 transition-colors duration-300">
       <header
-        className="sticky top-0 z-50 border-b border-white/6"
-        style={{
-          background: "rgba(14, 16, 32, 0.82)",
-          backdropFilter: "blur(24px)",
-          WebkitBackdropFilter: "blur(24px)",
-        }}
+        className="sticky top-0 z-50 border-b border-dusk-100/80 dark:border-white/6 bg-white/80 dark:bg-[#0e1020]/80 backdrop-blur-xl"
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5">
           {/* Logo */}
-          <span className="font-display text-lg font-semibold text-white flex-shrink-0">
+          <span className="font-display text-lg font-semibold text-dusk-900 dark:text-white flex-shrink-0">
             MindMate <span className="text-gradient-sage">AI</span>
           </span>
 
@@ -122,8 +118,8 @@ export default function AppShell({ children }) {
                 className={({ isActive }) =>
                   `flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-medium transition-all duration-200 ${
                     isActive
-                      ? "bg-sage-500/15 text-sage-300 border-b-2 border-sage-500/70"
-                      : "text-dusk-400 hover:text-dusk-200 hover:bg-white/5"
+                      ? "bg-sage-500/15 text-sage-700 dark:text-sage-300 border-b-2 border-sage-500/70"
+                      : "text-dusk-600 dark:text-dusk-400 hover:text-dusk-900 dark:hover:text-dusk-200 hover:bg-dusk-100/60 dark:hover:bg-white/5"
                   }`
                 }
               >
@@ -135,30 +131,32 @@ export default function AppShell({ children }) {
 
           {/* Right section */}
           <div className="flex items-center gap-2">
+            <ThemeToggle />
+
             <NavLink
               to="/profile"
-              className="hidden text-xs text-dusk-500 hover:text-dusk-300 transition-colors sm:inline"
+              className="hidden text-xs text-dusk-600 dark:text-dusk-500 hover:text-dusk-900 dark:hover:text-dusk-300 transition-colors sm:inline"
             >
               Profile
             </NavLink>
             <NavLink
               to="/privacy-settings"
-              className="hidden text-xs text-dusk-500 hover:text-dusk-300 transition-colors sm:inline"
+              className="hidden text-xs text-dusk-600 dark:text-dusk-500 hover:text-dusk-900 dark:hover:text-dusk-300 transition-colors sm:inline"
             >
               Privacy
             </NavLink>
             {user?.role === "admin" && (
               <NavLink
                 to="/admin"
-                className="hidden text-xs text-sand-300 hover:text-sand-200 transition-colors sm:inline"
+                className="hidden text-xs text-sand-400 dark:text-sand-300 hover:text-sand-500 dark:hover:text-sand-200 transition-colors sm:inline"
               >
                 Admin
               </NavLink>
             )}
 
-            <div className="flex items-center gap-2 ml-2 pl-2 border-l border-white/8">
+            <div className="flex items-center gap-2 ml-1 pl-2 border-l border-dusk-200/60 dark:border-white/8">
               <UserAvatar name={user?.name} />
-              <span className="hidden text-sm text-dusk-300 sm:block max-w-[100px] truncate">
+              <span className="hidden text-sm text-dusk-700 dark:text-dusk-300 sm:block max-w-[100px] truncate">
                 {user?.name}
               </span>
             </div>

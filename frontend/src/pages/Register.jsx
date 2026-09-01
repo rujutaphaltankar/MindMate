@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import FormField from "../components/FormField";
+import ThemeToggle from "../components/ThemeToggle";
 import { useAuth } from "../context/AuthContext";
 
 const features = [
@@ -39,21 +40,26 @@ export default function Register() {
   }
 
   return (
-    <div className="flex min-h-screen bg-auth">
+    <div className="relative flex min-h-screen bg-auth transition-colors duration-300">
+      {/* Top right theme toggle */}
+      <div className="absolute top-6 right-6 z-20">
+        <ThemeToggle />
+      </div>
+
       {/* Orbs */}
-      <div className="orb w-96 h-96 bg-sage-500/15 top-[-80px] right-[-80px] animate-float-slow" style={{ animationDelay: "-2s" }} />
-      <div className="orb w-72 h-72 bg-dusk-500/18 bottom-0 left-[30%] animate-float" style={{ animationDelay: "-5s" }} />
+      <div className="orb w-96 h-96 bg-sage-500/10 dark:bg-sage-500/15 top-[-80px] right-[-80px] animate-float-slow" style={{ animationDelay: "-2s" }} />
+      <div className="orb w-72 h-72 bg-dusk-500/12 dark:bg-dusk-500/18 bottom-0 left-[30%] animate-float" style={{ animationDelay: "-5s" }} />
 
       {/* Left form panel */}
       <div className="flex flex-1 items-center justify-center px-6 py-12">
         <div className="w-full max-w-sm animate-fade-in-up">
           {/* Mobile logo */}
-          <Link to="/" className="lg:hidden block font-display text-xl font-semibold text-white mb-8">
+          <Link to="/" className="lg:hidden block font-display text-xl font-semibold text-dusk-900 dark:text-white mb-8">
             MindMate <span className="text-gradient-sage">AI</span>
           </Link>
 
-          <h1 className="font-display text-3xl text-white">Create your space</h1>
-          <p className="mt-2 text-sm text-dusk-400">
+          <h1 className="font-display text-3xl text-dusk-900 dark:text-white">Create your space</h1>
+          <p className="mt-2 text-sm text-dusk-600 dark:text-dusk-400">
             Free, private, and yours to delete at any time.
           </p>
 
@@ -86,7 +92,7 @@ export default function Register() {
             />
 
             {(error || details.length > 0) && (
-              <div className="rounded-2xl bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-300" role="alert">
+              <div className="rounded-2xl bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-600 dark:text-red-300" role="alert">
                 {error && <p>{error}</p>}
                 {details.length > 0 && (
                   <ul className="mt-1 list-inside list-disc space-y-0.5">
@@ -116,9 +122,9 @@ export default function Register() {
             </button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-dusk-500">
+          <p className="mt-6 text-center text-sm text-dusk-600 dark:text-dusk-500">
             Already have an account?{" "}
-            <Link to="/login" className="text-sage-400 hover:text-sage-300 font-medium transition-colors">
+            <Link to="/login" className="text-sage-600 dark:text-sage-400 hover:text-sage-700 dark:hover:text-sage-300 font-medium transition-colors">
               Log in
             </Link>
           </p>
@@ -126,24 +132,24 @@ export default function Register() {
       </div>
 
       {/* Divider */}
-      <div className="hidden lg:block w-px bg-white/5 my-8" />
+      <div className="hidden lg:block w-px bg-dusk-200/50 dark:bg-white/5 my-8" />
 
       {/* Right decorative panel */}
       <div className="relative hidden lg:flex lg:w-5/12 flex-col justify-between p-12 overflow-hidden">
-        <Link to="/" className="font-display text-xl font-semibold text-white z-10 relative">
+        <Link to="/" className="font-display text-xl font-semibold text-dusk-900 dark:text-white z-10 relative">
           MindMate <span className="text-gradient-sage">AI</span>
         </Link>
 
         <div className="z-10 relative space-y-4">
           <div className="w-16 h-1 bg-gradient-to-r from-sage-500 to-sage-300 rounded-full mb-6" />
-          <h2 className="font-display text-2xl text-white">Built around your privacy.</h2>
-          <p className="text-sm leading-relaxed text-dusk-400">
+          <h2 className="font-display text-2xl text-dusk-900 dark:text-white">Built around your privacy.</h2>
+          <p className="text-sm leading-relaxed text-dusk-600 dark:text-dusk-400">
             Everything you write stays with you. MindMate was designed from the ground up to
             respect your privacy — no ads, no data selling, no judgment.
           </p>
           <ul className="mt-6 space-y-3">
             {features.map((f) => (
-              <li key={f.text} className="flex items-start gap-3 text-sm text-dusk-300">
+              <li key={f.text} className="flex items-start gap-3 text-sm text-dusk-700 dark:text-dusk-300">
                 <span className="text-base mt-0.5">{f.icon}</span>
                 {f.text}
               </li>
@@ -151,13 +157,13 @@ export default function Register() {
           </ul>
         </div>
 
-        <p className="z-10 relative text-xs text-dusk-600 leading-relaxed max-w-xs">
+        <p className="z-10 relative text-xs text-dusk-500 dark:text-dusk-600 leading-relaxed max-w-xs">
           MindMate AI is a wellness companion, not a medical device or therapist.
         </p>
 
         {/* Decorative elements */}
-        <div className="absolute top-[-60px] left-[-60px] w-72 h-72 rounded-full border border-white/5" />
-        <div className="absolute top-[-20px] left-[-20px] w-44 h-44 rounded-full border border-white/5" />
+        <div className="absolute top-[-60px] left-[-60px] w-72 h-72 rounded-full border border-dusk-200/40 dark:border-white/5" />
+        <div className="absolute top-[-20px] left-[-20px] w-44 h-44 rounded-full border border-dusk-200/40 dark:border-white/5" />
       </div>
     </div>
   );

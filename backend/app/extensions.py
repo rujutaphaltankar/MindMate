@@ -17,9 +17,24 @@ cors = CORS()
 _client: MongoClient | None = None
 _db = None  # the real database object, set in init_db()
 _is_persistent_mock = False
+
+# Store outside backend/ to prevent Werkzeug reloader from restarting Flask on every DB write
 _persist_filepath = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "data", "mindmate_local_db.pkl")
+    os.path.join(os.path.dirname(__file__), "..", "..", "data", "mindmate_local_db.pkl")
 )
+
+KNOWN_COLLECTIONS = [
+    "users",
+    "journal_entries",
+    "mood_records",
+    "chat_sessions",
+    "chat_messages",
+    "activity_history",
+    "community_posts",
+    "community_comments",
+    "reports",
+    "resources",
+]
 
 
 class _DBProxy:
@@ -53,10 +68,13 @@ def save_persistent_mock_db(db_instance=None, filepath=_persist_filepath):
     try:
         os.makedirs(os.path.dirname(filepath), exist_ok=True)
         data = {}
-        for coll_name in target_db.list_collection_names():
+        all_colls = set(KNOWN_COLLECTIONS).union(target_db.list_collection_names())
+        for coll_name in all_colls:
             if coll_name.startswith("system."):
                 continue
-            data[coll_name] = list(target_db[coll_name].find())
+            docs = list(target_db[coll_name].find())
+            if docs:
+                data[coll_name] = docs
         with open(filepath, "wb") as f:
             pickle.dump(data, f)
     except Exception as e:
@@ -151,7 +169,7 @@ def init_db(mongo_uri: str):
         except ServerSelectionTimeoutError:
             print("\n" + "=" * 80)
             print(f"WARNING: Could not connect to MongoDB at: {mongo_uri}")
-            print("FALLING BACK to local persistent file database (data/mindmate_local_db.pkl).")
+            print("FALLING BACK to local persistent file database.")
             print(f"Data file location: {_persist_filepath}")
             print("=" * 80 + "\n")
             use_mock = True
@@ -181,5 +199,3 @@ def init_db(mongo_uri: str):
     _db.reports.create_index([("status", 1), ("created_at", -1)])
 
     return db
-
-

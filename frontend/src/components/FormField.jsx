@@ -1,7 +1,7 @@
 export default function FormField({ label, type = "text", value, onChange, name, placeholder, autoComplete }) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-sm font-medium text-dusk-700 dark:text-dusk-200">
+      <span className="mb-2 block text-xs font-semibold uppercase tracking-widest text-dusk-400">
         {label}
       </span>
       <input
@@ -12,7 +12,13 @@ export default function FormField({ label, type = "text", value, onChange, name,
         placeholder={placeholder}
         autoComplete={autoComplete}
         required
-        className="w-full rounded-2xl border border-dusk-200 bg-white px-4 py-2.5 text-dusk-900 placeholder:text-dusk-300 outline-none transition focus:border-dusk-400 focus:ring-4 focus:ring-dusk-100 dark:border-dusk-700 dark:bg-dusk-800 dark:text-dusk-50 dark:focus:ring-dusk-800"
+        className="
+          w-full rounded-2xl px-4 py-3 text-sm text-white placeholder:text-dusk-600
+          outline-none transition-all duration-200
+          bg-white/5 border border-white/8
+          focus:border-sage-500/60 focus:bg-white/8 focus:ring-2 focus:ring-sage-500/20
+          hover:border-white/15
+        "
       />
     </label>
   );

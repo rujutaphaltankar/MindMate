@@ -1,17 +1,156 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* Fonts are loaded via <link> in index.html */
 
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  @apply font-body text-dusk-900 dark:text-dusk-50 antialiased;
+  @apply font-body antialiased;
+  background-color: #0e1020;
+  color: #e3e8f7;
+  min-height: 100vh;
 }
 
-h1, h2, h3, .font-display {
+h1, h2, h3, h4, .font-display {
   font-family: theme("fontFamily.display");
+}
+
+/* ── Glass utility ────────────────────────────────────────────────────────── */
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-light {
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .text-gradient-sage {
+    background: linear-gradient(135deg, #6bad7e 0%, #4d9163 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-dusk {
+    background: linear-gradient(135deg, #9caee2 0%, #5265ba 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-hero {
+    background: radial-gradient(ellipse at 20% 50%, rgba(82, 101, 186, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(77, 145, 99, 0.12) 0%, transparent 55%),
+                radial-gradient(ellipse at 60% 80%, rgba(55, 40, 90, 0.2) 0%, transparent 50%),
+                linear-gradient(160deg, #0e1020 0%, #131828 50%, #0e1020 100%);
+  }
+
+  .bg-auth {
+    background: radial-gradient(ellipse at 30% 30%, rgba(82, 101, 186, 0.18) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 70%, rgba(77, 145, 99, 0.12) 0%, transparent 55%),
+                linear-gradient(160deg, #0e1020 0%, #131828 100%);
+  }
+
+  .btn-sage {
+    @apply rounded-full font-medium text-white transition-all duration-300;
+    background: linear-gradient(135deg, #4d9163 0%, #3a744e 100%);
+    box-shadow: 0 0 0px rgba(77, 145, 99, 0);
+  }
+  .btn-sage:hover {
+    box-shadow: 0 0 28px -4px rgba(77, 145, 99, 0.65);
+    transform: translateY(-1px);
+  }
+  .btn-sage:active {
+    transform: translateY(0);
+  }
+
+  .btn-ghost {
+    @apply rounded-full font-medium transition-all duration-200;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(163, 176, 220, 1);
+    background: transparent;
+  }
+  .btn-ghost:hover {
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.04);
+    color: #e3e8f7;
+  }
+
+  .card-glass {
+    @apply rounded-3xl;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    transition: all 0.25s ease;
+  }
+  .card-glass:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px -12px rgba(14, 16, 32, 0.6);
+  }
+
+  /* Orb decorations */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-float-slow {
+    animation: float 9s ease-in-out infinite;
+  }
+
+  .animate-float-slower {
+    animation: float 12s ease-in-out infinite;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.65s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.45s ease-out forwards;
+  }
+}
+
+/* Staggered fade-in-up for lists */
+.stagger-1 { animation: fadeInUp 0.6s ease-out 0.05s both; }
+.stagger-2 { animation: fadeInUp 0.6s ease-out 0.15s both; }
+.stagger-3 { animation: fadeInUp 0.6s ease-out 0.25s both; }
+.stagger-4 { animation: fadeInUp 0.6s ease-out 0.35s both; }
+.stagger-5 { animation: fadeInUp 0.6s ease-out 0.45s both; }
+.stagger-6 { animation: fadeInUp 0.6s ease-out 0.55s both; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-20px); }
 }
 
 /* Respect reduced-motion preferences across the app */

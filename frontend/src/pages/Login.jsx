@@ -4,6 +4,14 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import FormField from "../components/FormField";
 import { useAuth } from "../context/AuthContext";
 
+const quotes = [
+  { text: "You don't have to control your thoughts. You just have to stop letting them control you.", author: "Dan Millman" },
+  { text: "Happiness is not something ready-made. It comes from your own actions.", author: "Dalai Lama" },
+  { text: "You are allowed to be both a masterpiece and a work in progress simultaneously.", author: "Sophia Bush" },
+];
+
+const quote = quotes[Math.floor(Math.random() * quotes.length)];
+
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -32,62 +40,111 @@ export default function Login() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-dusk-50 px-4 dark:bg-dusk-900">
-      <div className="w-full max-w-sm rounded-3xl border border-dusk-100 bg-white p-8 shadow-soft dark:border-dusk-700 dark:bg-dusk-800">
-        <Link to="/" className="font-display text-lg text-dusk-800 dark:text-dusk-50">
-          MindMate <span className="text-sage-500">AI</span>
+    <div className="flex min-h-screen bg-auth">
+      {/* Orbs */}
+      <div className="orb w-96 h-96 bg-dusk-500/20 top-[-80px] left-[-80px] animate-float" />
+      <div className="orb w-72 h-72 bg-sage-500/15 bottom-0 right-[40%] animate-float-slow" style={{ animationDelay: "-4s" }} />
+
+      {/* Left decorative panel */}
+      <div className="relative hidden lg:flex lg:w-5/12 flex-col justify-between p-12 overflow-hidden">
+        <Link to="/" className="font-display text-xl font-semibold text-white z-10 relative">
+          MindMate <span className="text-gradient-sage">AI</span>
         </Link>
-        <h1 className="mt-4 font-display text-2xl text-dusk-900 dark:text-dusk-50">Welcome back</h1>
-        <p className="mt-1 text-sm text-dusk-500 dark:text-dusk-300">
-          Log in to pick up where you left off.
+
+        <div className="z-10 relative">
+          <div className="w-16 h-1 bg-gradient-to-r from-sage-500 to-sage-300 rounded-full mb-6" />
+          <blockquote className="font-display text-2xl leading-snug text-white/90">
+            &ldquo;{quote.text}&rdquo;
+          </blockquote>
+          <p className="mt-4 text-sm text-dusk-400">— {quote.author}</p>
+        </div>
+
+        <p className="z-10 relative text-xs text-dusk-600 leading-relaxed max-w-xs">
+          MindMate AI is a wellness companion, not a medical device or therapist.
         </p>
 
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-          <FormField
-            label="Email"
-            type="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            placeholder="you@example.com"
-            autoComplete="email"
-          />
-          <FormField
-            label="Password"
-            type="password"
-            name="password"
-            value={form.password}
-            onChange={handleChange}
-            placeholder="••••••••"
-            autoComplete="current-password"
-          />
+        {/* Decorative circles */}
+        <div className="absolute bottom-[-60px] right-[-60px] w-72 h-72 rounded-full border border-white/5" />
+        <div className="absolute bottom-[-20px] right-[-20px] w-44 h-44 rounded-full border border-white/5" />
+        <div className="absolute top-1/2 right-8 w-2 h-2 rounded-full bg-sage-400/50" />
+        <div className="absolute top-[45%] right-16 w-1.5 h-1.5 rounded-full bg-dusk-400/50" />
+        <div className="absolute top-[55%] right-24 w-1 h-1 rounded-full bg-sand-300/50" />
+      </div>
 
-          {error && (
-            <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
-              {error}
+      {/* Divider */}
+      <div className="hidden lg:block w-px bg-white/5 my-8" />
+
+      {/* Right form panel */}
+      <div className="flex flex-1 items-center justify-center px-6 py-12">
+        <div className="w-full max-w-sm animate-fade-in-up">
+          {/* Mobile logo */}
+          <Link to="/" className="lg:hidden block font-display text-xl font-semibold text-white mb-8">
+            MindMate <span className="text-gradient-sage">AI</span>
+          </Link>
+
+          <h1 className="font-display text-3xl text-white">Welcome back</h1>
+          <p className="mt-2 text-sm text-dusk-400">
+            Log in to pick up where you left off.
+          </p>
+
+          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+            <FormField
+              label="Email"
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              placeholder="you@example.com"
+              autoComplete="email"
+            />
+            <FormField
+              label="Password"
+              type="password"
+              name="password"
+              value={form.password}
+              onChange={handleChange}
+              placeholder="••••••••"
+              autoComplete="current-password"
+            />
+
+            {error && (
+              <div className="rounded-2xl bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-300" role="alert">
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              id="login-submit"
+              disabled={isSubmitting}
+              className="btn-sage w-full py-3 text-base disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.37 0 0 5.37 0 12h4z" />
+                  </svg>
+                  Logging in…
+                </span>
+              ) : "Log in"}
+            </button>
+          </form>
+
+          <div className="mt-6 space-y-2 text-center text-sm text-dusk-500">
+            <p>
+              New here?{" "}
+              <Link to="/register" className="text-sage-400 hover:text-sage-300 font-medium transition-colors">
+                Create an account
+              </Link>
             </p>
-          )}
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full rounded-full bg-dusk-800 py-2.5 font-medium text-white transition hover:bg-dusk-700 disabled:opacity-60"
-          >
-            {isSubmitting ? "Logging in…" : "Log in"}
-          </button>
-        </form>
-
-        <p className="mt-6 text-center text-sm text-dusk-500 dark:text-dusk-300">
-          New here?{" "}
-          <Link to="/register" className="font-medium text-sage-600 hover:underline">
-            Create an account
-          </Link>
-        </p>
-        <p className="mt-2 text-center text-sm text-dusk-400">
-          <Link to="/forgot-password" className="hover:underline">
-            Forgot your password?
-          </Link>
-        </p>
+            <p>
+              <Link to="/forgot-password" className="hover:text-dusk-300 transition-colors">
+                Forgot your password?
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

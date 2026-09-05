@@ -32,7 +32,7 @@ function Post({ post, onLike, onDelete, onReport }) {
       </div>
       <p className="mt-2 text-dusk-800 dark:text-dusk-100">{post.text}</p>
       <div className="mt-3 flex items-center gap-4 text-sm text-dusk-500 dark:text-dusk-300">
-        <button onClick={() => onLike(post.id)} className={post.liked_by_me ? "text-sage-600" : ""}>
+        <button onClick={() => onLike(post.id)} className={post.liked_by_me ? "text-indigo-600 font-bold" : ""}>
           ❤️ {post.likes}
         </button>
         <button onClick={toggleComments}>💬 {post.comment_count}</button>
@@ -136,7 +136,7 @@ export default function Community() {
           <select
             value={postCategory}
             onChange={(e) => setPostCategory(e.target.value)}
-            className="rounded-full border border-dusk-200 bg-white px-3 py-1.5 text-sm dark:border-dusk-700 dark:bg-dusk-900 dark:text-dusk-50"
+            className="rounded-full border border-dusk-200 bg-white px-3 py-1.5 text-sm"
           >
             {categories.map((c) => (
               <option key={c} value={c}>
@@ -144,7 +144,7 @@ export default function Community() {
               </option>
             ))}
           </select>
-          <button type="submit" className="rounded-full bg-sage-500 px-6 py-2 text-sm font-medium text-white hover:bg-sage-600">
+          <button type="submit" className="btn-sage px-6 py-2 text-sm font-semibold shadow-md hover:scale-105 transition-all">
             Post anonymously
           </button>
         </div>

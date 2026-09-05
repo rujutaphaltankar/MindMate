@@ -99,7 +99,7 @@ export default function Insights() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2.5 rounded-2xl bg-sage-500/10 px-4 py-2 text-xs font-semibold text-sage-700 dark:bg-sage-500/20 dark:text-sage-300">
+          <div className="flex items-center gap-2.5 rounded-2xl bg-indigo-500/10 px-4 py-2 text-xs font-semibold text-indigo-700">
             <span>🔒 Confidential & Privacy Gated</span>
           </div>
         </div>

@@ -74,14 +74,14 @@ export default function Profile() {
                   <h2 className="font-display text-2xl font-semibold text-dusk-900 dark:text-white">
                     {user?.name || "MindMate Member"}
                   </h2>
-                  <span className="rounded-full bg-sage-500/15 px-3 py-0.5 text-xs font-semibold text-sage-700 dark:bg-sage-500/25 dark:text-sage-300">
+                  <span className="rounded-full bg-indigo-500/15 px-3 py-0.5 text-xs font-semibold text-indigo-700 dark:bg-indigo-500/25 dark:text-indigo-300">
                     {user?.role === "admin" ? "Admin" : "Member"}
                   </span>
                 </div>
                 <p className="mt-1 text-sm text-dusk-500 dark:text-dusk-400">{user?.email}</p>
                 <div className="mt-2.5 flex items-center gap-4 text-xs text-dusk-400 dark:text-dusk-400">
                   <span className="flex items-center gap-1.5">
-                    <svg className="h-3.5 w-3.5 text-sage-600 dark:text-sage-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                     Joined {memberSince}
@@ -170,7 +170,7 @@ export default function Profile() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter your name"
-                className="w-full rounded-2xl border border-dusk-200 bg-white/70 px-4 py-3 text-sm text-dusk-900 outline-none transition-all focus:border-sage-500 focus:ring-4 focus:ring-sage-500/15 dark:border-dusk-700 dark:bg-dusk-800/80 dark:text-white dark:focus:border-sage-400"
+                className="w-full rounded-2xl border border-dusk-200 bg-white/70 px-4 py-3 text-sm text-dusk-900 outline-none transition-all focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 dark:border-dusk-700 dark:bg-dusk-800/80 dark:text-white dark:focus:border-indigo-400"
               />
             </div>
 

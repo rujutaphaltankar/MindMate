@@ -9,7 +9,7 @@ const features = [
   { icon: "🔒", text: "End-to-end private — only you can see your data" },
   { icon: "🗑️", text: "Delete everything in one click, any time" },
   { icon: "🤖", text: "AI that supports, never diagnoses" },
-  { icon: "🌿", text: "Free forever, no credit card needed" },
+  { icon: "✨", text: "Free forever, no credit card needed" },
 ];
 
 export default function Register() {
@@ -47,7 +47,7 @@ export default function Register() {
       </div>
 
       {/* Orbs */}
-      <div className="orb w-96 h-96 bg-sage-500/10 dark:bg-sage-500/15 top-[-80px] right-[-80px] animate-float-slow" style={{ animationDelay: "-2s" }} />
+      <div className="orb w-96 h-96 bg-indigo-500/10 dark:bg-indigo-500/15 top-[-80px] right-[-80px] animate-float-slow" style={{ animationDelay: "-2s" }} />
       <div className="orb w-72 h-72 bg-dusk-500/12 dark:bg-dusk-500/18 bottom-0 left-[30%] animate-float" style={{ animationDelay: "-5s" }} />
 
       {/* Left form panel */}
@@ -124,7 +124,7 @@ export default function Register() {
 
           <p className="mt-6 text-center text-sm text-dusk-600 dark:text-dusk-500">
             Already have an account?{" "}
-            <Link to="/login" className="text-sage-600 dark:text-sage-400 hover:text-sage-700 dark:hover:text-sage-300 font-medium transition-colors">
+            <Link to="/login" className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium transition-colors">
               Log in
             </Link>
           </p>
@@ -141,7 +141,7 @@ export default function Register() {
         </Link>
 
         <div className="z-10 relative space-y-4">
-          <div className="w-16 h-1 bg-gradient-to-r from-sage-500 to-sage-300 rounded-full mb-6" />
+          <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-indigo-300 rounded-full mb-6" />
           <h2 className="font-display text-2xl text-dusk-900 dark:text-white">Built around your privacy.</h2>
           <p className="text-sm leading-relaxed text-dusk-600 dark:text-dusk-400">
             Everything you write stays with you. MindMate was designed from the ground up to

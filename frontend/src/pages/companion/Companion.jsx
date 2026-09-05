@@ -8,11 +8,10 @@ const PROMPT_CHIPS = [
   { label: "💡 How can MindMate help me?", text: "What are your best recommendations and features on this app to help me?" },
   { label: "🧘 Feeling overwhelmed", text: "I'm feeling really overwhelmed right now." },
   { label: "💭 Just need to vent", text: "I just need someone to listen while I vent about my day." },
-  { label: "🍃 Quick 1-min reset", text: "Can you help me with a quick 1-minute breathing reset?" },
+  { label: "🌬️ Quick 1-min reset", text: "Can you help me with a quick 1-minute breathing reset?" },
   { label: "✨ Had a great win!", text: "I had a really positive win today that I want to share!" },
   { label: "😴 Can't quiet my mind", text: "My mind won't stop racing and I'm having trouble unwinding." },
 ];
-
 
 export default function Companion() {
   const [messages, setMessages] = useState([]);
@@ -92,13 +91,13 @@ export default function Companion() {
         {/* Header Bar */}
         <div className="flex items-center justify-between border-b border-dusk-100 px-6 py-3.5 dark:border-dusk-700">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-sage-100 text-lg dark:bg-sage-900/50">
-              💙
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-100 text-lg dark:bg-indigo-900/50">
+              💜
             </div>
             <div>
               <h2 className="text-sm font-semibold text-dusk-900 dark:text-dusk-50">MindMate AI</h2>
-              <div className="flex items-center gap-1.5 text-xs text-sage-600 dark:text-sage-400">
-                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <div className="flex items-center gap-1.5 text-xs text-indigo-600 dark:text-indigo-400">
+                <span className="h-2 w-2 rounded-full bg-indigo-500 animate-pulse"></span>
                 <span>Online & listening</span>
               </div>
             </div>
@@ -109,8 +108,8 @@ export default function Companion() {
         <div className="flex-1 space-y-4 overflow-y-auto p-6">
           {messages.length === 0 && (
             <div className="my-auto flex flex-col items-center justify-center text-center py-8">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-sage-50 text-3xl dark:bg-sage-950/40 mb-3">
-                🌿
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-indigo-50 text-3xl dark:bg-indigo-950/40 mb-3">
+                ✨
               </div>
               <h3 className="font-display text-lg font-medium text-dusk-800 dark:text-dusk-100">
                 Hey there! I'm here for you.
@@ -126,7 +125,7 @@ export default function Companion() {
                   <button
                     key={idx}
                     onClick={() => sendMessageText(chip.text)}
-                    className="rounded-full border border-dusk-200 bg-dusk-50/50 px-3.5 py-1.5 text-xs font-medium text-dusk-700 transition-all hover:border-sage-400 hover:bg-sage-50 dark:border-dusk-700 dark:bg-dusk-900 dark:text-dusk-200 dark:hover:border-sage-500 dark:hover:bg-sage-950/30"
+                    className="rounded-full border border-dusk-200 bg-dusk-50/50 px-3.5 py-1.5 text-xs font-medium text-dusk-700 transition-all hover:border-indigo-400 hover:bg-indigo-50 dark:border-dusk-700 dark:bg-dusk-900 dark:text-dusk-200 dark:hover:border-indigo-500 dark:hover:bg-indigo-950/30"
                   >
                     {chip.label}
                   </button>
@@ -146,7 +145,7 @@ export default function Companion() {
               <div
                 className={`max-w-[82%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                   m.role === "user"
-                    ? "bg-sage-600 text-white rounded-br-xs shadow-sm"
+                    ? "bg-indigo-600 text-white rounded-br-xs shadow-sm"
                     : "bg-dusk-50 text-dusk-800 dark:bg-dusk-900 dark:text-dusk-100 rounded-bl-xs border border-dusk-100/60 dark:border-dusk-700/60 shadow-sm"
                 }`}
               >
@@ -163,9 +162,9 @@ export default function Companion() {
               <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-xs border border-dusk-100/60 bg-dusk-50 px-4 py-3 text-sm text-dusk-500 dark:border-dusk-700/60 dark:bg-dusk-900 dark:text-dusk-400">
                 <span className="text-xs">MindMate is typing</span>
                 <div className="flex items-center gap-1">
-                  <span className="h-1.5 w-1.5 rounded-full bg-sage-500 animate-bounce"></span>
-                  <span className="h-1.5 w-1.5 rounded-full bg-sage-500 animate-bounce [animation-delay:0.2s]"></span>
-                  <span className="h-1.5 w-1.5 rounded-full bg-sage-500 animate-bounce [animation-delay:0.4s]"></span>
+                  <span className="h-1.5 w-1.5 rounded-full bg-indigo-500 animate-bounce"></span>
+                  <span className="h-1.5 w-1.5 rounded-full bg-indigo-500 animate-bounce [animation-delay:0.2s]"></span>
+                  <span className="h-1.5 w-1.5 rounded-full bg-indigo-500 animate-bounce [animation-delay:0.4s]"></span>
                 </div>
               </div>
             </div>
@@ -197,12 +196,12 @@ export default function Companion() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Talk to MindMate… share what's on your mind"
-            className="flex-1 rounded-full border border-dusk-200 bg-dusk-50/50 px-4 py-2.5 text-sm outline-none transition-all focus:border-sage-500 focus:bg-white focus:ring-2 focus:ring-sage-500/20 dark:border-dusk-700 dark:bg-dusk-900 dark:text-dusk-50 dark:focus:border-sage-400"
+            className="flex-1 rounded-full border border-dusk-200 bg-dusk-50/50 px-4 py-2.5 text-sm outline-none transition-all focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 dark:border-dusk-700 dark:bg-dusk-900 dark:text-dusk-50 dark:focus:border-indigo-400"
           />
           <button
             type="submit"
             disabled={isSending || !input.trim()}
-            className="flex items-center gap-1.5 rounded-full bg-sage-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:bg-sage-700 disabled:opacity-50"
+            className="btn-sage flex items-center gap-1.5 px-5 py-2.5 text-sm font-semibold shadow-sm disabled:opacity-50"
           >
             <span>Send</span>
             <svg
@@ -224,4 +223,3 @@ export default function Companion() {
     </AppShell>
   );
 }
-

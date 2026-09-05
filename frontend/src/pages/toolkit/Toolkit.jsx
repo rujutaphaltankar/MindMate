@@ -52,7 +52,7 @@ export default function Toolkit() {
     if (activity.type === "breathing") return "🌬️";
     if (activity.id.includes("sleep")) return "🌙";
     if (activity.id.includes("focus")) return "🎯";
-    if (activity.id.includes("relax")) return "🌿";
+    if (activity.id.includes("relax")) return "✨";
     return "🧘";
   };
 
@@ -78,7 +78,7 @@ export default function Toolkit() {
               Curated mindfulness practices, breathing resets, and guided meditations.
             </p>
           </div>
-          <div className="flex items-center gap-2 rounded-2xl bg-sage-500/10 px-4 py-2 text-xs font-semibold text-sage-700 dark:bg-sage-500/20 dark:text-sage-300">
+          <div className="flex items-center gap-2 rounded-2xl bg-indigo-500/10 px-4 py-2 text-xs font-semibold text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300">
             <span>✨ Sessions Completed: {completedIds.length}</span>
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function Toolkit() {
 
               <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
                 <div className="max-w-xl space-y-2">
-                  <span className="inline-block rounded-full bg-sage-500/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-sage-700 dark:bg-sage-500/25 dark:text-sage-300">
+                  <span className="inline-block rounded-full bg-indigo-500/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-indigo-700 dark:bg-indigo-500/25 dark:text-indigo-300">
                     Recommended Daily Practice
                   </span>
                   <h2 className="font-display text-2xl font-bold text-dusk-900 dark:text-white">
@@ -159,7 +159,7 @@ export default function Toolkit() {
                       onClick={() => setActiveTab(tab.id)}
                       className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold transition-all ${
                         activeTab === tab.id
-                          ? "bg-white text-dusk-900 shadow-sm dark:bg-dusk-700 dark:text-white"
+                          ? "bg-indigo-600 text-white shadow-sm dark:bg-indigo-600 dark:text-white"
                           : "text-dusk-500 hover:text-dusk-800 dark:text-dusk-400 dark:hover:text-dusk-200"
                       }`}
                     >
@@ -176,7 +176,7 @@ export default function Toolkit() {
                       placeholder="Search sessions..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full rounded-xl border border-dusk-200/80 bg-white/80 px-3 py-1.5 text-xs text-dusk-800 outline-none transition-all focus:border-sage-500 dark:border-dusk-700 dark:bg-dusk-800/80 dark:text-white"
+                      className="w-full rounded-xl border border-dusk-200/80 bg-white/80 px-3 py-1.5 text-xs text-dusk-800 outline-none transition-all focus:border-indigo-500 dark:border-dusk-700 dark:bg-dusk-800/80 dark:text-white"
                     />
                     {searchQuery && (
                       <button
@@ -213,7 +213,7 @@ export default function Toolkit() {
                       setSearchQuery("");
                       setDurationFilter("all");
                     }}
-                    className="mt-3 text-xs font-semibold text-sage-600 dark:text-sage-400 hover:underline"
+                    className="mt-3 text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
                   >
                     Reset filters
                   </button>

@@ -89,7 +89,7 @@ function UserAvatar({ name }) {
     ? name.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase()
     : "?";
   return (
-    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-sage-500 to-sage-700 text-xs font-bold text-white shadow-glow-sage-sm">
+    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-dusk-600 text-xs font-bold text-white shadow-sm">
       {initials}
     </div>
   );
@@ -106,7 +106,7 @@ export default function AppShell({ children }) {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5">
           {/* Logo */}
           <span className="font-display text-lg font-semibold text-dusk-900 dark:text-white flex-shrink-0">
-            MindMate <span className="text-gradient-sage">AI</span>
+            MindMate <span className="text-indigo-500 dark:text-indigo-400">AI</span>
           </span>
 
           {/* Nav */}
@@ -118,7 +118,7 @@ export default function AppShell({ children }) {
                 className={({ isActive }) =>
                   `flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-medium transition-all duration-200 ${
                     isActive
-                      ? "bg-sage-500/15 text-sage-700 dark:text-sage-300 border-b-2 border-sage-500/70"
+                      ? "bg-indigo-500/15 text-indigo-600 dark:text-indigo-300 font-semibold border-b-2 border-indigo-500"
                       : "text-dusk-600 dark:text-dusk-400 hover:text-dusk-900 dark:hover:text-dusk-200 hover:bg-dusk-100/60 dark:hover:bg-white/5"
                   }`
                 }

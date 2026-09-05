@@ -23,8 +23,8 @@ const pillars = [
         <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    color: "from-sage-500/20 to-sage-600/10 dark:from-sage-500/30 dark:to-sage-600/20",
-    iconColor: "text-sage-600 dark:text-sage-300",
+    color: "from-indigo-500/20 to-indigo-600/10 dark:from-indigo-500/30 dark:to-indigo-600/20",
+    iconColor: "text-indigo-600 dark:text-indigo-300",
   },
   {
     title: "Reflect",
@@ -67,7 +67,7 @@ export default function Landing() {
         style={{ animationDelay: "0s" }}
       />
       <div
-        className="orb w-[400px] h-[400px] bg-sage-500/10 dark:bg-sage-500/14 top-[60px] right-[-100px] animate-float-slow"
+        className="orb w-[400px] h-[400px] bg-indigo-500/10 dark:bg-indigo-500/14 top-[60px] right-[-100px] animate-float-slow"
         style={{ animationDelay: "-3s" }}
       />
       <div
@@ -100,8 +100,8 @@ export default function Landing() {
 
       {/* Hero */}
       <main className="relative z-10 mx-auto max-w-5xl px-6 pb-28 pt-16 text-center">
-        <div className="inline-flex items-center gap-2 rounded-full border border-sage-500/30 bg-sage-500/10 px-4 py-1.5 text-xs font-medium text-sage-700 dark:text-sage-300 mb-8 stagger-1">
-          <span className="w-1.5 h-1.5 rounded-full bg-sage-500 animate-pulse" />
+        <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-xs font-medium text-indigo-700 dark:text-indigo-300 mb-8 stagger-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
           Your private wellness companion
         </div>
 

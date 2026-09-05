@@ -52,7 +52,7 @@ export default function JournalDetail() {
           className="mt-3 w-full rounded-2xl border border-dusk-200 bg-white px-4 py-3 text-dusk-900 dark:border-dusk-700 dark:bg-dusk-900 dark:text-dusk-50"
         />
         {entry.ai_analysis && (
-          <div className="mt-4 rounded-2xl bg-sage-50 px-4 py-3 text-sm text-sage-800 dark:bg-dusk-900 dark:text-sage-300">
+          <div className="mt-4 rounded-2xl bg-indigo-50/70 px-4 py-3 text-sm text-indigo-900 dark:bg-dusk-900 dark:text-indigo-300 border border-indigo-100 dark:border-dusk-700">
             <p className="font-medium">
               {entry.ai_analysis.sentiment} · {entry.ai_analysis.intensity} intensity
             </p>
@@ -60,13 +60,13 @@ export default function JournalDetail() {
           </div>
         )}
         <div className="mt-4 flex items-center gap-3">
-          <button onClick={handleSave} className="rounded-full bg-dusk-800 px-6 py-2 text-sm font-medium text-white hover:bg-dusk-700">
+          <button onClick={handleSave} className="btn-sage px-6 py-2 text-sm font-semibold">
             Save changes
           </button>
           <button onClick={handleDelete} className="rounded-full border border-red-200 px-6 py-2 text-sm font-medium text-red-600 hover:bg-red-50">
             Delete entry
           </button>
-          {status && <span className="text-sm text-sage-600">{status}</span>}
+          {status && <span className="text-sm text-indigo-600">{status}</span>}
         </div>
       </div>
     </AppShell>

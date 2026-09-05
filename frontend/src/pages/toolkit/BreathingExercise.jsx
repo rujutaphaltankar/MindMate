@@ -36,7 +36,7 @@ export default function BreathingExercise({ onFinish }) {
   return (
     <div className="mt-6 flex flex-col items-center">
       <div
-        className={`flex h-40 w-40 items-center justify-center rounded-full bg-sage-200 text-sage-800 transition-transform duration-[1000ms] ease-in-out dark:bg-sage-600 dark:text-sage-50 ${
+        className={`flex h-40 w-40 items-center justify-center rounded-full bg-indigo-200 text-indigo-900 transition-transform duration-[1000ms] ease-in-out dark:bg-indigo-600 dark:text-white ${
           isExhale ? "scale-75" : "scale-100"
         }`}
       >

@@ -61,7 +61,7 @@ export default function Journal() {
           onChange={(e) => setText(e.target.value)}
           rows={5}
           placeholder="What's on your mind today?"
-          className="w-full rounded-2xl border border-dusk-200 bg-white px-4 py-3 text-dusk-900 outline-none focus:border-dusk-400 focus:ring-4 focus:ring-dusk-100 dark:border-dusk-700 dark:bg-dusk-900 dark:text-dusk-50"
+          className="w-full rounded-2xl border border-dusk-200 bg-white px-4 py-3 text-dusk-900 outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 dark:border-dusk-700 dark:bg-dusk-900 dark:text-dusk-50"
         />
         <div className="mt-3 flex flex-wrap gap-2">
           {tags.map((tag) => (
@@ -71,7 +71,7 @@ export default function Journal() {
               onClick={() => toggleTag(tag)}
               className={`rounded-full px-3 py-1 text-xs font-medium transition ${
                 selectedTags.includes(tag)
-                  ? "bg-sage-500 text-white"
+                  ? "bg-indigo-600 text-white"
                   : "bg-dusk-100 text-dusk-600 hover:bg-dusk-200 dark:bg-dusk-700 dark:text-dusk-200"
               }`}
             >
@@ -84,7 +84,7 @@ export default function Journal() {
             <input type="checkbox" checked={analyze} onChange={(e) => setAnalyze(e.target.checked)} />
             Get an AI reflection (requires AI analysis consent in Privacy Settings)
           </label>
-          <button type="submit" className="rounded-full bg-dusk-800 px-6 py-2 text-sm font-medium text-white hover:bg-dusk-700">
+          <button type="submit" className="btn-sage px-6 py-2 text-sm font-semibold">
             Save entry
           </button>
         </div>
@@ -140,7 +140,7 @@ export default function Journal() {
                     </div>
                   )}
                   {entry.ai_analysis && (
-                    <div className="mt-3 rounded-2xl bg-sage-50 px-4 py-3 text-sm text-sage-800 dark:bg-dusk-900 dark:text-sage-300">
+                    <div className="mt-3 rounded-2xl bg-indigo-50/70 px-4 py-3 text-sm text-indigo-900 dark:bg-dusk-900 dark:text-indigo-300 border border-indigo-100 dark:border-dusk-700">
                       <p className="font-medium">{entry.ai_analysis.sentiment} · {entry.ai_analysis.intensity} intensity</p>
                       <p className="mt-0.5">{entry.ai_analysis.summary}</p>
                     </div>

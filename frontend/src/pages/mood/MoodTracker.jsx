@@ -11,7 +11,7 @@ function Slider({ label, value, onChange }) {
         <span>{label}</span>
         <span className="text-dusk-500">{value}/10</span>
       </div>
-      <input type="range" min="1" max="10" value={value} onChange={onChange} className="w-full accent-sage-500" />
+      <input type="range" min="1" max="10" value={value} onChange={onChange} className="w-full accent-indigo-500" />
     </label>
   );
 }
@@ -100,10 +100,10 @@ export default function MoodTracker() {
           </label>
 
           {status && (
-            <p className={`text-sm ${status.type === "success" ? "text-sage-600" : "text-red-600"}`}>{status.message}</p>
+            <p className={`text-sm ${status.type === "success" ? "text-indigo-600" : "text-red-600"}`}>{status.message}</p>
           )}
 
-          <button type="submit" className="w-full rounded-full bg-sage-500 py-2.5 font-medium text-white hover:bg-sage-600">
+          <button type="submit" className="btn-sage w-full py-2.5 font-semibold">
             Save check-in
           </button>
         </form>
@@ -121,7 +121,7 @@ export default function MoodTracker() {
                     <XAxis dataKey="date" fontSize={12} stroke="#7086d1" />
                     <YAxis domain={[0, 10]} fontSize={12} stroke="#7086d1" />
                     <Tooltip />
-                    <Line type="monotone" dataKey="mood" stroke="#4d9163" strokeWidth={2} dot={false} />
+                    <Line type="monotone" dataKey="mood" stroke="#6366f1" strokeWidth={2} dot={false} />
                     <Line type="monotone" dataKey="stress" stroke="#5265ba" strokeWidth={2} dot={false} />
                     <Line type="monotone" dataKey="energy" stroke="#d6a75f" strokeWidth={2} dot={false} />
                   </LineChart>

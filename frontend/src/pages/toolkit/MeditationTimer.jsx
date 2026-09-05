@@ -82,7 +82,7 @@ export default function MeditationTimer({ activity, onComplete, onClose }) {
         >
           ← Back to Toolkit
         </button>
-        <span className="text-xs font-semibold uppercase tracking-wider text-sage-600 dark:text-sage-400 bg-sage-50 dark:bg-sage-950/60 px-3 py-1 rounded-full">
+        <span className="text-xs font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-3 py-1 rounded-full">
           Guided Session
         </span>
       </div>
@@ -96,19 +96,19 @@ export default function MeditationTimer({ activity, onComplete, onClose }) {
 
       {/* Completion View */}
       {isFinished ? (
-        <div className="my-8 flex flex-col items-center rounded-3xl border border-sage-200 bg-sage-50/70 p-8 text-center shadow-soft dark:border-sage-800 dark:bg-sage-950/30 max-w-md">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-sage-600 text-2xl text-white shadow-md mb-4 animate-bounce">
+        <div className="my-8 flex flex-col items-center rounded-3xl border border-indigo-200 bg-indigo-50/70 p-8 text-center shadow-soft dark:border-indigo-800 dark:bg-indigo-950/30 max-w-md">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-indigo-600 text-2xl text-white shadow-md mb-4 animate-bounce">
             ✓
           </div>
           <h3 className="font-display text-xl font-medium text-dusk-900 dark:text-dusk-50">
-            Meditation Completed! 🌿
+            Meditation Completed! ✨
           </h3>
           <p className="mt-2 text-sm text-dusk-600 dark:text-dusk-300">
             Great job taking time out of your day to nurture your mind. This session has been saved to your wellness history.
           </p>
           <button
             onClick={onClose}
-            className="mt-6 rounded-full bg-sage-600 px-6 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-sage-700 transition-all"
+            className="btn-sage mt-6 px-6 py-2.5 text-sm font-semibold shadow-sm hover:shadow"
           >
             Done & Return
           </button>
@@ -119,7 +119,7 @@ export default function MeditationTimer({ activity, onComplete, onClose }) {
           <div className="relative my-8 flex h-60 w-60 items-center justify-center">
             {/* Pulsing ambient background glow when running */}
             <div
-              className={`absolute inset-0 rounded-full bg-sage-300/30 dark:bg-sage-600/20 transition-all duration-1000 ${
+              className={`absolute inset-0 rounded-full bg-indigo-400/30 dark:bg-indigo-600/20 transition-all duration-1000 ${
                 isRunning ? "animate-ping opacity-30 scale-105" : "opacity-0"
               }`}
             />
@@ -138,7 +138,7 @@ export default function MeditationTimer({ activity, onComplete, onClose }) {
                 cx="50"
                 cy="50"
                 r="44"
-                className="stroke-sage-500 transition-all duration-1000 ease-linear dark:stroke-sage-400"
+                className="stroke-indigo-500 transition-all duration-1000 ease-linear dark:stroke-indigo-400"
                 strokeWidth="6"
                 strokeDasharray="276.46"
                 strokeDashoffset={276.46 - (276.46 * progressPercent) / 100}
@@ -170,7 +170,7 @@ export default function MeditationTimer({ activity, onComplete, onClose }) {
             {!isRunning ? (
               <button
                 onClick={handleStart}
-                className="rounded-full bg-sage-600 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-sage-700 transition-all"
+                className="btn-sage px-8 py-3 text-sm font-semibold shadow-sm hover:shadow"
               >
                 {secondsLeft === fullDurationSeconds ? "Start Meditation" : "Resume"}
               </button>

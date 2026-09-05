@@ -49,7 +49,7 @@ export default function Login() {
 
       {/* Orbs */}
       <div className="orb w-96 h-96 bg-dusk-500/12 dark:bg-dusk-500/20 top-[-80px] left-[-80px] animate-float" />
-      <div className="orb w-72 h-72 bg-sage-500/10 dark:bg-sage-500/15 bottom-0 right-[40%] animate-float-slow" style={{ animationDelay: "-4s" }} />
+      <div className="orb w-72 h-72 bg-indigo-500/10 dark:bg-indigo-500/15 bottom-0 right-[40%] animate-float-slow" style={{ animationDelay: "-4s" }} />
 
       {/* Left decorative panel */}
       <div className="relative hidden lg:flex lg:w-5/12 flex-col justify-between p-12 overflow-hidden">
@@ -58,7 +58,7 @@ export default function Login() {
         </Link>
 
         <div className="z-10 relative">
-          <div className="w-16 h-1 bg-gradient-to-r from-sage-500 to-sage-300 rounded-full mb-6" />
+          <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-indigo-300 rounded-full mb-6" />
           <blockquote className="font-display text-2xl leading-snug text-dusk-900 dark:text-white/90">
             &ldquo;{quote.text}&rdquo;
           </blockquote>
@@ -137,7 +137,7 @@ export default function Login() {
           <div className="mt-6 space-y-2 text-center text-sm text-dusk-600 dark:text-dusk-500">
             <p>
               New here?{" "}
-              <Link to="/register" className="text-sage-600 dark:text-sage-400 hover:text-sage-700 dark:hover:text-sage-300 font-medium transition-colors">
+              <Link to="/register" className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium transition-colors">
                 Create an account
               </Link>
             </p>

@@ -52,7 +52,7 @@ export default function PrivacySettings() {
             onChange={() => toggle("allow_anonymous_analytics")}
           />
         </label>
-        {status && <p className="text-sm text-sage-600">{status}</p>}
+        {status && <p className="text-sm text-indigo-600 dark:text-indigo-400">{status}</p>}
       </div>
 
       <div className="mt-6 max-w-lg space-y-3 rounded-3xl border border-red-200 bg-red-50 p-6">

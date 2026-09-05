@@ -28,8 +28,8 @@ const quickActions = [
         <path d="M3 17l4-8 4 5 3-3 4 6" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    gradient: "from-sage-500/20 to-sage-600/10 dark:from-sage-500/30 dark:to-sage-600/15",
-    iconColor: "text-sage-700 dark:text-sage-300",
+    gradient: "from-indigo-500/20 to-indigo-600/10 dark:from-indigo-500/30 dark:to-indigo-600/15",
+    iconColor: "text-indigo-700 dark:text-indigo-300",
   },
   {
     to: "/companion",
@@ -88,10 +88,10 @@ const statCards = [
     key: "mood",
     label: "Latest Mood",
     unit: "/10",
-    icon: "🌿",
-    gradient: "from-sage-500/15 to-sage-700/5 dark:from-sage-500/25 dark:to-sage-700/10",
-    dot: "bg-sage-500 dark:bg-sage-400",
-    textColor: "text-sage-800 dark:text-sage-200",
+    icon: "✨",
+    gradient: "from-indigo-500/15 to-indigo-700/5 dark:from-indigo-500/25 dark:to-indigo-700/10",
+    dot: "bg-indigo-500 dark:bg-indigo-400",
+    textColor: "text-indigo-800 dark:text-indigo-200",
   },
   {
     key: "stress",
@@ -161,12 +161,12 @@ export default function Dashboard() {
       <div className="space-y-8 animate-fade-in-up">
         {/* Header Greeting Banner */}
         <div className="card-glass relative overflow-hidden p-6 sm:p-8">
-          <div className="absolute -right-12 -top-12 h-44 w-44 rounded-full bg-sage-500/15 blur-3xl pointer-events-none" />
+          <div className="absolute -right-12 -top-12 h-44 w-44 rounded-full bg-indigo-500/15 blur-3xl pointer-events-none" />
           <div className="absolute -left-12 -bottom-12 h-44 w-44 rounded-full bg-dusk-500/15 blur-3xl pointer-events-none" />
 
           <div className="relative flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <span className="inline-block rounded-full bg-sage-500/15 px-3 py-0.5 text-xs font-semibold uppercase tracking-wider text-sage-700 dark:bg-sage-500/25 dark:text-sage-300 mb-2">
+              <span className="inline-block rounded-full bg-indigo-500/15 px-3 py-0.5 text-xs font-semibold uppercase tracking-wider text-indigo-700 dark:bg-indigo-500/25 dark:text-indigo-300 mb-2">
                 {greeting()}
               </span>
               <h1 className="font-display text-3xl font-bold text-dusk-900 dark:text-white sm:text-4xl">
@@ -260,7 +260,7 @@ export default function Dashboard() {
             </div>
             <Link
               to="/insights"
-              className="text-xs font-semibold text-sage-600 hover:text-sage-700 dark:text-sage-400 dark:hover:text-sage-300 transition-colors flex items-center gap-1"
+              className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors flex items-center gap-1"
             >
               Full Analytics →
             </Link>
@@ -268,7 +268,7 @@ export default function Dashboard() {
 
           {records.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-8 text-center">
-              <span className="text-3xl mb-2">🌿</span>
+              <span className="text-3xl mb-2">✨</span>
               <p className="text-sm font-medium text-dusk-500 dark:text-dusk-400">
                 No check-ins recorded yet.
               </p>
@@ -279,7 +279,7 @@ export default function Dashboard() {
           ) : (
             <div className="grid grid-cols-3 gap-4 text-center">
               {[
-                { label: "Avg Mood", value: avgMood, unit: "/10", icon: "🌿", color: "text-sage-700 dark:text-sage-300" },
+                { label: "Avg Mood", value: avgMood, unit: "/10", icon: "✨", color: "text-indigo-700 dark:text-indigo-300" },
                 { label: "Avg Stress", value: avgStress, unit: "/10", icon: "🌊", color: "text-amber-700 dark:text-amber-300" },
                 { label: "Avg Energy", value: avgEnergy, unit: "/10", icon: "⚡", color: "text-dusk-700 dark:text-dusk-300" },
               ].map((item) => (

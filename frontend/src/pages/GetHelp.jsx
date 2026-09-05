@@ -22,14 +22,14 @@ export default function GetHelp() {
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         {resources.map((r) => (
           <div key={r.id} className="rounded-3xl border border-dusk-100 bg-white p-5 shadow-soft dark:border-dusk-700 dark:bg-dusk-800">
-            <p className="text-xs uppercase tracking-wide text-sage-600">{r.category?.replace(/_/g, " ")}</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400">{r.category?.replace(/_/g, " ")}</p>
             <h3 className="mt-1 font-display text-lg text-dusk-800 dark:text-dusk-50">{r.name}</h3>
             <p className="mt-1 text-sm text-dusk-500 dark:text-dusk-300">{r.description}</p>
             <div className="mt-3 space-y-1 text-sm text-dusk-600 dark:text-dusk-300">
               {r.phone && <p>📞 {r.phone}</p>}
               {r.availability && <p>🕐 {r.availability}</p>}
               {r.website && (
-                <a href={r.website} target="_blank" rel="noreferrer" className="text-sage-600 hover:underline">
+                <a href={r.website} target="_blank" rel="noreferrer" className="text-indigo-600 dark:text-indigo-400 hover:underline">
                   Visit website →
                 </a>
               )}

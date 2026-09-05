@@ -9,90 +9,96 @@ const quickActions = [
   {
     to: "/journal",
     label: "Write Journal",
+    subtext: "Express your thoughts",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-5 h-5">
         <path d="M12 20h9" strokeLinecap="round" />
         <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    gradient: "from-dusk-500/20 to-dusk-600/10 dark:from-dusk-500/25 dark:to-dusk-600/15",
+    gradient: "from-dusk-500/20 to-dusk-600/10 dark:from-dusk-500/30 dark:to-dusk-600/15",
     iconColor: "text-dusk-700 dark:text-dusk-300",
   },
   {
     to: "/mood",
     label: "Record Mood",
+    subtext: "Log daily feelings",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-5 h-5">
         <path d="M3 17l4-8 4 5 3-3 4 6" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    gradient: "from-sage-500/20 to-sage-600/10 dark:from-sage-500/25 dark:to-sage-600/15",
+    gradient: "from-sage-500/20 to-sage-600/10 dark:from-sage-500/30 dark:to-sage-600/15",
     iconColor: "text-sage-700 dark:text-sage-300",
   },
   {
     to: "/companion",
-    label: "Talk to MindMate",
+    label: "AI Companion",
+    subtext: "Talk & reflect safely",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-5 h-5">
         <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    gradient: "from-purple-500/20 to-purple-700/10 dark:from-purple-500/25 dark:to-purple-700/15",
+    gradient: "from-purple-500/20 to-purple-700/10 dark:from-purple-500/30 dark:to-purple-700/15",
     iconColor: "text-purple-700 dark:text-purple-300",
   },
   {
     to: "/toolkit",
     label: "Meditate",
+    subtext: "Guided sessions",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-5 h-5">
         <circle cx="12" cy="12" r="9" />
         <path d="M12 7v5l3 3" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    gradient: "from-sand-300/30 to-sand-400/20 dark:from-sand-300/20 dark:to-sand-400/10",
-    iconColor: "text-sand-700 dark:text-sand-300",
+    gradient: "from-amber-500/20 to-amber-600/10 dark:from-amber-500/30 dark:to-amber-600/15",
+    iconColor: "text-amber-700 dark:text-amber-300",
   },
   {
     to: "/toolkit",
     label: "Breathe",
+    subtext: "4-7-8 exercise",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-5 h-5">
         <path d="M12 2C8 2 6 6 6 10c0 5 6 12 6 12s6-7 6-12c0-4-2-8-6-8z" strokeLinecap="round" strokeLinejoin="round" />
         <circle cx="12" cy="10" r="2" />
       </svg>
     ),
-    gradient: "from-cyan-500/20 to-cyan-700/10 dark:from-cyan-500/20 dark:to-cyan-700/10",
+    gradient: "from-cyan-500/20 to-cyan-700/10 dark:from-cyan-500/30 dark:to-cyan-700/15",
     iconColor: "text-cyan-700 dark:text-cyan-300",
   },
   {
     to: "/resources",
     label: "Get Help",
+    subtext: "24/7 Crisis support",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="w-6 h-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-5 h-5">
         <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    gradient: "from-red-500/20 to-red-700/10 dark:from-red-500/20 dark:to-red-700/10",
-    iconColor: "text-red-700 dark:text-red-300",
+    gradient: "from-rose-500/20 to-rose-700/10 dark:from-rose-500/30 dark:to-rose-700/15",
+    iconColor: "text-rose-700 dark:text-rose-300",
   },
 ];
 
 const statCards = [
   {
     key: "mood",
-    label: "Current Mood",
+    label: "Latest Mood",
     unit: "/10",
-    gradient: "from-dusk-500/10 to-dusk-700/5 dark:from-dusk-500/20 dark:to-dusk-700/10",
-    border: "border-dusk-500/20",
-    dot: "bg-dusk-500 dark:bg-dusk-400",
-    textColor: "text-dusk-800 dark:text-dusk-200",
+    icon: "🌿",
+    gradient: "from-sage-500/15 to-sage-700/5 dark:from-sage-500/25 dark:to-sage-700/10",
+    dot: "bg-sage-500 dark:bg-sage-400",
+    textColor: "text-sage-800 dark:text-sage-200",
   },
   {
     key: "stress",
     label: "Stress Level",
     unit: "/10",
-    gradient: "from-amber-500/10 to-amber-700/5 dark:from-amber-500/20 dark:to-amber-700/10",
-    border: "border-amber-500/20",
+    icon: "🌊",
+    gradient: "from-amber-500/15 to-amber-700/5 dark:from-amber-500/25 dark:to-amber-700/10",
     dot: "bg-amber-500 dark:bg-amber-400",
     textColor: "text-amber-800 dark:text-amber-200",
   },
@@ -100,17 +106,17 @@ const statCards = [
     key: "energy",
     label: "Energy Level",
     unit: "/10",
-    gradient: "from-sage-500/10 to-sage-700/5 dark:from-sage-500/20 dark:to-sage-700/10",
-    border: "border-sage-500/20",
-    dot: "bg-sage-500 dark:bg-sage-400",
-    textColor: "text-sage-800 dark:text-sage-200",
+    icon: "⚡",
+    gradient: "from-dusk-500/15 to-dusk-700/5 dark:from-dusk-500/25 dark:to-dusk-700/10",
+    dot: "bg-dusk-500 dark:bg-dusk-400",
+    textColor: "text-dusk-800 dark:text-dusk-200",
   },
   {
     key: "sleep_hours",
-    label: "Sleep Last Check-in",
+    label: "Sleep Logged",
     unit: "h",
-    gradient: "from-cyan-500/10 to-cyan-700/5 dark:from-cyan-500/15 dark:to-cyan-700/8",
-    border: "border-cyan-500/20",
+    icon: "🌙",
+    gradient: "from-cyan-500/15 to-cyan-700/5 dark:from-cyan-500/25 dark:to-cyan-700/10",
     dot: "bg-cyan-500 dark:bg-cyan-400",
     textColor: "text-cyan-800 dark:text-cyan-200",
   },
@@ -152,90 +158,146 @@ export default function Dashboard() {
 
   return (
     <AppShell>
-      {/* Header greeting */}
-      <div className="mb-8 animate-fade-in-up">
-        <p className="text-xs font-semibold uppercase tracking-widest text-dusk-500 dark:text-dusk-400 mb-1">
-          {greeting()}
-        </p>
-        <h1 className="font-display text-3xl text-dusk-900 dark:text-white">
-          {user?.name ? `${user.name}.` : "Welcome."}
-        </h1>
-        <p className="mt-1 text-sm text-dusk-600 dark:text-dusk-400">Here's a snapshot of how you're doing.</p>
-      </div>
+      <div className="space-y-8 animate-fade-in-up">
+        {/* Header Greeting Banner */}
+        <div className="card-glass relative overflow-hidden p-6 sm:p-8">
+          <div className="absolute -right-12 -top-12 h-44 w-44 rounded-full bg-sage-500/15 blur-3xl pointer-events-none" />
+          <div className="absolute -left-12 -bottom-12 h-44 w-44 rounded-full bg-dusk-500/15 blur-3xl pointer-events-none" />
 
-      {/* Stat cards */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {statCards.map((card, i) => {
-          const val = statValues[card.key];
-          return (
-            <div
-              key={card.key}
-              className={`relative overflow-hidden rounded-3xl border ${card.border} p-5 stagger-${i + 1}`}
-              style={{ background: `linear-gradient(135deg, ${card.gradient.replace("from-", "").replace(" to-", ", ")})` }}
-            >
-              <div className={`inline-flex w-2 h-2 rounded-full ${card.dot} mb-3 opacity-80`} />
-              <p className="text-xs font-medium text-dusk-600 dark:text-dusk-400 uppercase tracking-wider">{card.label}</p>
-              <p className={`mt-1 font-display text-3xl font-semibold ${card.textColor}`}>
-                {val != null ? val : "—"}
-                <span className="text-base font-normal opacity-60">{val != null ? card.unit : ""}</span>
+          <div className="relative flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <span className="inline-block rounded-full bg-sage-500/15 px-3 py-0.5 text-xs font-semibold uppercase tracking-wider text-sage-700 dark:bg-sage-500/25 dark:text-sage-300 mb-2">
+                {greeting()}
+              </span>
+              <h1 className="font-display text-3xl font-bold text-dusk-900 dark:text-white sm:text-4xl">
+                {user?.name ? `${user.name}.` : "Welcome back."}
+              </h1>
+              <p className="mt-1.5 text-sm text-dusk-600 dark:text-dusk-300">
+                Take a moment to check in with yourself today. Here is your wellness snapshot.
               </p>
             </div>
-          );
-        })}
-      </div>
 
-      {/* Quick actions */}
-      <div className="mt-8">
-        <h2 className="font-display text-lg text-dusk-900 dark:text-white mb-4">Quick actions</h2>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {quickActions.map((a, i) => (
-            <Link
-              key={a.label}
-              to={a.to}
-              className={`card-glass flex flex-col items-center gap-3 p-4 text-center stagger-${i + 1}`}
-            >
-              <div className={`inline-flex items-center justify-center w-10 h-10 rounded-2xl bg-gradient-to-br ${a.gradient} ${a.iconColor}`}>
-                {a.icon}
-              </div>
-              <span className="text-xs font-medium text-dusk-700 dark:text-dusk-300">{a.label}</span>
-            </Link>
-          ))}
-        </div>
-      </div>
-
-      {/* Wellness snapshot */}
-      <div className="mt-8 card-glass p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-display text-lg text-dusk-900 dark:text-white">Wellness snapshot</h2>
-          <Link to="/insights" className="text-xs text-sage-600 dark:text-sage-400 hover:text-sage-700 dark:hover:text-sage-300 transition-colors font-medium">
-            Full insights →
-          </Link>
-        </div>
-
-        {records.length === 0 ? (
-          <div className="text-center py-6">
-            <p className="text-sm text-dusk-500 mb-3">No check-ins yet.</p>
             <Link
               to="/mood"
-              className="btn-sage px-5 py-2 text-sm inline-block"
+              className="btn-sage shrink-0 flex items-center justify-center gap-2 px-5 py-3 text-xs font-semibold shadow-md transition-all hover:scale-105"
             >
-              Record your first mood
+              <span>✨</span> Record Today's Mood
             </Link>
           </div>
-        ) : (
-          <div className="grid grid-cols-3 gap-4 text-center">
-            {[
-              { label: "Avg mood", value: avgMood, color: "text-dusk-800 dark:text-dusk-200" },
-              { label: "Avg stress", value: avgStress, color: "text-amber-800 dark:text-amber-200" },
-              { label: "Avg energy", value: avgEnergy, color: "text-sage-800 dark:text-sage-200" },
-            ].map((item) => (
-              <div key={item.label} className="py-3 rounded-2xl bg-dusk-100/40 dark:bg-white/3 border border-dusk-200/50 dark:border-white/6">
-                <p className={`font-display text-2xl font-semibold ${item.color}`}>{item.value ?? "—"}</p>
-                <p className="text-xs text-dusk-500 dark:text-dusk-400 mt-1">{item.label}</p>
+        </div>
+
+        {/* Metric KPI Stat Cards */}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {statCards.map((card, i) => {
+            const val = statValues[card.key];
+            return (
+              <div
+                key={card.key}
+                className={`card-glass relative overflow-hidden p-5 transition-all hover:scale-[1.02] stagger-${i + 1}`}
+              >
+                <div className={`absolute -right-6 -top-6 h-20 w-20 rounded-full bg-gradient-to-br ${card.gradient} blur-2xl pointer-events-none`} />
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className={`inline-block h-2 w-2 rounded-full ${card.dot}`} />
+                    <span className="text-xs font-semibold uppercase tracking-wider text-dusk-500 dark:text-dusk-400">
+                      {card.label}
+                    </span>
+                  </div>
+                  <span className="text-lg">{card.icon}</span>
+                </div>
+
+                <p className={`mt-3 font-display text-3xl font-bold ${card.textColor}`}>
+                  {val != null ? val : "—"}
+                  {val != null && <span className="text-sm font-normal opacity-60 ml-0.5">{card.unit}</span>}
+                </p>
               </div>
+            );
+          })}
+        </div>
+
+        {/* Quick Actions Grid */}
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-display text-xl font-semibold text-dusk-900 dark:text-white">
+              Quick Actions
+            </h2>
+            <span className="text-xs text-dusk-400">Instant Access</span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 lg:grid-cols-6">
+            {quickActions.map((a, i) => (
+              <Link
+                key={a.label}
+                to={a.to}
+                className={`card-glass flex flex-col items-center gap-2.5 p-4 text-center transition-all hover:scale-[1.03] stagger-${i + 1}`}
+              >
+                <div className={`flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br ${a.gradient} ${a.iconColor}`}>
+                  {a.icon}
+                </div>
+                <div>
+                  <span className="block font-display text-xs font-semibold text-dusk-800 dark:text-dusk-100">
+                    {a.label}
+                  </span>
+                  <span className="block text-[10px] text-dusk-400 dark:text-dusk-400 mt-0.5">
+                    {a.subtext}
+                  </span>
+                </div>
+              </Link>
             ))}
           </div>
-        )}
+        </div>
+
+        {/* Wellness Snapshot & Trends Preview */}
+        <div className="card-glass p-6 sm:p-8">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="font-display text-xl font-semibold text-dusk-900 dark:text-white">
+                Recent Averages
+              </h2>
+              <p className="text-xs text-dusk-500 dark:text-dusk-400 mt-0.5">
+                Aggregate stats over your last {records.length} logged check-ins.
+              </p>
+            </div>
+            <Link
+              to="/insights"
+              className="text-xs font-semibold text-sage-600 hover:text-sage-700 dark:text-sage-400 dark:hover:text-sage-300 transition-colors flex items-center gap-1"
+            >
+              Full Analytics →
+            </Link>
+          </div>
+
+          {records.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-8 text-center">
+              <span className="text-3xl mb-2">🌿</span>
+              <p className="text-sm font-medium text-dusk-500 dark:text-dusk-400">
+                No check-ins recorded yet.
+              </p>
+              <Link to="/mood" className="btn-sage mt-3 px-5 py-2 text-xs font-semibold">
+                Record your first mood
+              </Link>
+            </div>
+          ) : (
+            <div className="grid grid-cols-3 gap-4 text-center">
+              {[
+                { label: "Avg Mood", value: avgMood, unit: "/10", icon: "🌿", color: "text-sage-700 dark:text-sage-300" },
+                { label: "Avg Stress", value: avgStress, unit: "/10", icon: "🌊", color: "text-amber-700 dark:text-amber-300" },
+                { label: "Avg Energy", value: avgEnergy, unit: "/10", icon: "⚡", color: "text-dusk-700 dark:text-dusk-300" },
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  className="rounded-2xl bg-dusk-50/70 p-4 border border-dusk-100 dark:bg-dusk-900/60 dark:border-dusk-800"
+                >
+                  <span className="text-sm">{item.icon}</span>
+                  <p className={`mt-1 font-display text-2xl font-bold ${item.color}`}>
+                    {item.value ?? "—"}
+                    {item.value != null && <span className="text-xs font-normal opacity-60">{item.unit}</span>}
+                  </p>
+                  <p className="mt-1 text-xs text-dusk-500 dark:text-dusk-400">{item.label}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </AppShell>
   );

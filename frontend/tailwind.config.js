@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Calm, non-clinical palette: dusk indigo + sage + warm sand accent.
+        // Calm, non-clinical palette: dusk indigo + serene iris/violet accent + warm sand accent.
         dusk: {
           50: "#f2f4fb",
           100: "#e3e8f7",
@@ -20,14 +20,14 @@ export default {
           950: "#0e1020",
         },
         sage: {
-          50: "#f1f7f3",
-          100: "#dfeee3",
-          200: "#bcdcc5",
-          300: "#94c7a2",
-          400: "#6bad7e",
-          500: "#4d9163",
-          600: "#3a744e",
-          700: "#2d5b3d",
+          50: "#eef2ff",
+          100: "#e0e7ff",
+          200: "#c7d2fe",
+          300: "#a5b4fc",
+          400: "#818cf8",
+          500: "#6366f1",
+          600: "#4f46e5",
+          700: "#4338ca",
         },
         sand: {
           100: "#faf3e8",
@@ -42,8 +42,8 @@ export default {
       },
       boxShadow: {
         soft: "0 10px 40px -12px rgba(23, 27, 52, 0.18)",
-        "glow-sage": "0 0 40px -8px rgba(77, 145, 99, 0.55)",
-        "glow-sage-sm": "0 0 20px -4px rgba(77, 145, 99, 0.4)",
+        "glow-sage": "0 0 40px -8px rgba(99, 102, 241, 0.55)",
+        "glow-sage-sm": "0 0 20px -4px rgba(99, 102, 241, 0.4)",
         "glow-dusk": "0 0 40px -8px rgba(82, 101, 186, 0.45)",
         glass: "0 8px 32px 0 rgba(14, 16, 32, 0.45), inset 0 1px 0 rgba(255,255,255,0.08)",
       },
@@ -75,8 +75,8 @@ export default {
           "50%": { transform: "translateY(-20px)" },
         },
         pulseGlow: {
-          "0%, 100%": { boxShadow: "0 0 20px -4px rgba(77,145,99,0.35)" },
-          "50%": { boxShadow: "0 0 48px -4px rgba(77,145,99,0.72)" },
+          "0%, 100%": { boxShadow: "0 0 20px -4px rgba(99,102,241,0.35)" },
+          "50%": { boxShadow: "0 0 48px -4px rgba(99,102,241,0.72)" },
         },
       },
     },

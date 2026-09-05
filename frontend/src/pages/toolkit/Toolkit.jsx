@@ -117,7 +117,7 @@ export default function Toolkit() {
           <>
             {/* Daily Recommended Hero Practice */}
             <div className="card-glass relative overflow-hidden p-6 sm:p-8">
-              <div className="absolute -top-16 -right-16 h-48 w-48 rounded-full bg-sage-500/15 blur-3xl pointer-events-none" />
+              <div className="absolute -top-16 -right-16 h-48 w-48 rounded-full bg-indigo-500/15 blur-3xl pointer-events-none" />
               <div className="absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-dusk-500/15 blur-3xl pointer-events-none" />
 
               <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
@@ -237,7 +237,7 @@ export default function Toolkit() {
                             </div>
                             <div className="flex items-center gap-1.5">
                               {isDone && (
-                                <span className="rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300">
+                                <span className="rounded-full bg-indigo-500/15 px-2.5 py-0.5 text-[10px] font-semibold text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300">
                                   Done ✓
                                 </span>
                               )}

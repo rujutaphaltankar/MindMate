@@ -60,14 +60,14 @@ export default function Profile() {
 
         {/* Profile Card Header */}
         <div className="card-glass relative overflow-hidden p-6 sm:p-8">
-          <div className="absolute -top-12 -right-12 h-40 w-40 rounded-full bg-sage-500/10 blur-3xl pointer-events-none" />
+          <div className="absolute -top-12 -right-12 h-40 w-40 rounded-full bg-indigo-500/10 blur-3xl pointer-events-none" />
           <div className="absolute -bottom-12 -left-12 h-40 w-40 rounded-full bg-dusk-500/10 blur-3xl pointer-events-none" />
 
           <div className="relative flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-5">
-              <div className="relative flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl bg-gradient-to-br from-sage-400 to-dusk-600 font-display text-2xl font-bold text-white shadow-md">
+              <div className="relative flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl bg-gradient-to-br from-indigo-500 to-dusk-600 font-display text-2xl font-bold text-white shadow-md">
                 {getInitials(user?.name)}
-                <span className="absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-white bg-emerald-500 dark:border-dusk-800" />
+                <span className="absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-white bg-indigo-500 dark:border-dusk-800" />
               </div>
               <div>
                 <div className="flex items-center gap-2.5">
@@ -112,7 +112,7 @@ export default function Profile() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <div className="card-glass p-5">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-sage-500/15 text-sage-600 dark:bg-sage-500/20 dark:text-sage-400">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-500/15 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-400">
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -195,7 +195,7 @@ export default function Profile() {
               <div
                 className={`flex items-center gap-2 rounded-2xl p-4 text-xs font-medium ${
                   status.type === "success"
-                    ? "bg-emerald-500/10 text-emerald-700 border border-emerald-500/20 dark:bg-emerald-500/15 dark:text-emerald-300"
+                    ? "bg-indigo-500/10 text-indigo-700 border border-indigo-500/20 dark:bg-indigo-500/15 dark:text-indigo-300"
                     : "bg-red-500/10 text-red-700 border border-red-500/20 dark:bg-red-500/15 dark:text-red-300"
                 }`}
               >
@@ -229,7 +229,7 @@ export default function Profile() {
             className="card-glass flex items-center justify-between p-6 transition-all hover:scale-[1.01]"
           >
             <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-sage-500/15 text-sage-600 dark:bg-sage-500/20 dark:text-sage-400">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/15 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-400">
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>

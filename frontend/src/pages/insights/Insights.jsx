@@ -51,7 +51,6 @@ function CustomTooltip({ active, payload, label }) {
 export default function Insights() {
   const [data, setData] = useState(null);
   const [recs, setRecs] = useState([]);
-  const [selectedRange, setSelectedRange] = useState(7);
   const [activeSeries, setActiveSeries] = useState({ mood: true, stress: true, energy: true });
 
   useEffect(() => {
@@ -112,8 +111,8 @@ export default function Insights() {
             value={data.summary.avg_mood_week}
             suffix="/10"
             icon="🌿"
-            gradient="bg-sage-500/20"
-            color="text-sage-700 dark:text-sage-300"
+            gradient="bg-indigo-500/20"
+            color="text-indigo-700 dark:text-indigo-300"
           />
           <StatCard
             label="Avg Stress (7d)"
@@ -156,7 +155,7 @@ export default function Insights() {
             {/* Toggle series pills */}
             <div className="flex items-center gap-2">
               {[
-                { key: "mood", label: "Mood", color: "#4d9163" },
+                { key: "mood", label: "Mood", color: "#6366f1" },
                 { key: "stress", label: "Stress", color: "#5265ba" },
                 { key: "energy", label: "Energy", color: "#d6a75f" },
               ].map((s) => (
@@ -192,8 +191,8 @@ export default function Insights() {
                 <AreaChart data={data.trend} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorMood" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#4d9163" stopOpacity={0.35} />
-                      <stop offset="95%" stopColor="#4d9163" stopOpacity={0.0} />
+                      <stop offset="5%" stopColor="#6366f1" stopOpacity={0.35} />
+                      <stop offset="95%" stopColor="#6366f1" stopOpacity={0.0} />
                     </linearGradient>
                     <linearGradient id="colorStress" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#5265ba" stopOpacity={0.35} />
@@ -213,7 +212,7 @@ export default function Insights() {
                       type="monotone"
                       dataKey="mood"
                       name="Mood"
-                      stroke="#4d9163"
+                      stroke="#6366f1"
                       strokeWidth={2.5}
                       fillOpacity={1}
                       fill="url(#colorMood)"
@@ -257,7 +256,7 @@ export default function Insights() {
               {data.observations.map((obs, i) => (
                 <div
                   key={i}
-                  className="card-glass flex items-start gap-3.5 p-4 border-l-4 border-l-sage-500 dark:border-l-sage-400"
+                  className="card-glass flex items-start gap-3.5 p-4 border-l-4 border-l-indigo-500 dark:border-l-indigo-400"
                 >
                   <span className="text-lg shrink-0">💡</span>
                   <p className="text-xs leading-relaxed text-dusk-700 dark:text-dusk-200">
@@ -291,7 +290,7 @@ export default function Insights() {
                       <h4 className="font-display font-semibold text-dusk-900 dark:text-white">
                         {r.title}
                       </h4>
-                      <span className="rounded-full bg-sage-500/15 px-2.5 py-0.5 text-[10px] font-semibold text-sage-700 dark:bg-sage-500/20 dark:text-sage-300">
+                      <span className="rounded-full bg-indigo-500/15 px-2.5 py-0.5 text-[10px] font-semibold text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300">
                         Suggested
                       </span>
                     </div>
@@ -303,7 +302,7 @@ export default function Insights() {
                   <div className="mt-4 pt-3 border-t border-dusk-200/50 dark:border-dusk-800 flex justify-end">
                     <Link
                       to={action.to}
-                      className="text-xs font-semibold text-sage-600 hover:text-sage-700 dark:text-sage-400 dark:hover:text-sage-300 transition-colors flex items-center gap-1"
+                      className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors flex items-center gap-1"
                     >
                       {action.label} →
                     </Link>

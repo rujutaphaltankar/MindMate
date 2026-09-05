@@ -3,14 +3,17 @@ import { BrowserRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 
 import { AuthProvider } from "../../context/AuthContext";
+import { ThemeProvider } from "../../context/ThemeContext";
 import Login from "../Login";
 
 function renderLogin() {
   return render(
     <BrowserRouter>
-      <AuthProvider>
-        <Login />
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <Login />
+        </AuthProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }

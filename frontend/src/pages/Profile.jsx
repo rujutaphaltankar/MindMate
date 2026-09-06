@@ -49,7 +49,7 @@ export default function Profile() {
 
   return (
     <AppShell>
-      <div className="max-w-4xl space-y-8 animate-fade-in-up">
+      <div className="w-full space-y-8 animate-fade-in-up">
         {/* Header Title */}
         <div>
           <h1 className="font-display text-3xl text-dusk-900 dark:text-white">Account & Profile</h1>
@@ -154,13 +154,14 @@ export default function Profile() {
         </div>
 
         {/* Profile Settings Form */}
-        <div className="card-glass p-6 sm:p-8">
-          <h3 className="font-display text-xl font-semibold text-dusk-900 dark:text-white">Personal Details</h3>
-          <p className="mt-1 text-xs text-dusk-500 dark:text-dusk-400">
-            Update your account display name. Your email address is fixed for security.
-          </p>
+        <div className="card-glass grid gap-10 p-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,0.7fr)]">
+          <div>
+            <h3 className="font-display text-xl font-semibold text-dusk-900 dark:text-white">Personal Details</h3>
+            <p className="mt-1 text-xs text-dusk-500 dark:text-dusk-400">
+              Update your account display name. Your email address is fixed for security.
+            </p>
 
-          <form onSubmit={handleSave} className="mt-6 max-w-lg space-y-5">
+            <form onSubmit={handleSave} className="mt-6 space-y-5">
             <div>
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-dusk-700 dark:text-dusk-300">
                 Display Name
@@ -219,7 +220,27 @@ export default function Profile() {
                 {isSaving ? "Saving..." : "Save Changes"}
               </button>
             </div>
-          </form>
+            </form>
+          </div>
+
+          <div className="flex flex-col justify-between rounded-3xl bg-indigo-500/[0.07] p-6 dark:bg-indigo-400/[0.08]">
+            <div>
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-500/15 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-300">
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7l7-4z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M9 12l2 2 4-4" />
+                </svg>
+              </div>
+              <h4 className="mt-5 font-display text-lg font-semibold text-dusk-900 dark:text-white">Your space, your pace</h4>
+              <p className="mt-2 text-sm leading-relaxed text-dusk-600 dark:text-dusk-300">
+                MindMate keeps your wellness journey personal. Your reflections stay connected to your account and are never shared publicly.
+              </p>
+            </div>
+            <div className="mt-8 border-t border-indigo-500/15 pt-5 text-xs text-dusk-500 dark:text-dusk-400">
+              <p className="font-semibold text-dusk-700 dark:text-dusk-200">Privacy-first by design</p>
+              <p className="mt-1">Review consent and data controls whenever you need.</p>
+            </div>
+          </div>
         </div>
 
         {/* Account Quick Actions & Privacy Links */}

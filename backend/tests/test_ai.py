@@ -56,3 +56,44 @@ def test_chat_answers_direct_question_helpfully(auth_client):
     reply = resp.get_json()["reply"].lower()
     assert "breathe" in reply or "breath" in reply or "overthink" in reply or "step" in reply
     assert "i'm here" not in reply.lower() or "what's on your mind" not in reply.lower()
+
+
+def test_ai_providers_list(auth_client):
+    client, headers, _ = auth_client
+    resp = client.get("/api/ai/providers", headers=headers)
+    assert resp.status_code == 200
+    providers = resp.get_json()["providers"]
+    assert len(providers) >= 1
+    assert any(p["id"] == "rule_based" and p["available"] is True for p in providers)
+
+
+def test_chat_stream_normal_flow(auth_client):
+    client, headers, _ = auth_client
+    resp = client.post(
+        "/api/ai/chat/stream",
+        json={"message": "hello! I need a calming reset today"},
+        headers=headers,
+    )
+    assert resp.status_code == 200
+    assert "text/event-stream" in resp.headers.get("Content-Type", "")
+
+    raw_data = resp.get_data(as_text=True)
+    assert "data:" in raw_data
+    assert '"chunk":' in raw_data
+    assert '"done": true' in raw_data
+    assert '"safety_triggered": false' in raw_data
+
+
+def test_chat_stream_high_risk_and_nuanced_safety(auth_client):
+    client, headers, _ = auth_client
+
+    # Test Layer 2 nuanced crisis cue
+    resp = client.post(
+        "/api/ai/chat/stream",
+        json={"message": "everyone would be better off without me"},
+        headers=headers,
+    )
+    assert resp.status_code == 200
+    raw_data = resp.get_data(as_text=True)
+    assert '"safety_triggered": true' in raw_data
+    assert '"crisis_resources":' in raw_data

@@ -9,10 +9,17 @@ import os
 import pickle
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from pymongo import MongoClient
 
 jwt = JWTManager()
 cors = CORS()
+limiter = Limiter(
+    key_func=get_remote_address,
+    default_limits=["500 per day", "100 per hour"],
+    storage_uri="memory://",
+)
 
 _client: MongoClient | None = None
 _db = None  # the real database object, set in init_db()
@@ -34,6 +41,7 @@ KNOWN_COLLECTIONS = [
     "community_comments",
     "reports",
     "resources",
+    "revoked_tokens",
 ]
 
 
@@ -197,5 +205,7 @@ def init_db(mongo_uri: str):
     _db.community_posts.create_index([("created_at", -1)])
     _db.community_comments.create_index([("post_id", 1), ("created_at", 1)])
     _db.reports.create_index([("status", 1), ("created_at", -1)])
+    _db.revoked_tokens.create_index("jti", unique=True)
+    _db.revoked_tokens.create_index("expires_at", expireAfterSeconds=0)
 
     return db

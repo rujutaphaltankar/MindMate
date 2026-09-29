@@ -36,3 +36,26 @@ def validate_login_payload(data: dict) -> list[str]:
     if not data.get("password"):
         errors.append("Password is required.")
     return errors
+
+
+def validate_password(password: str) -> list[str]:
+    """Validates standalone password complexity."""
+    errors = []
+    if len(password or "") < PASSWORD_MIN_LENGTH:
+        errors.append(f"Password must be at least {PASSWORD_MIN_LENGTH} characters long.")
+    elif not re.search(r"[A-Za-z]", password) or not re.search(r"[0-9]", password):
+        errors.append("Password must contain both letters and numbers.")
+    return errors
+
+
+def validate_email_format(email: str) -> list[str]:
+    """Validates standalone email format."""
+    errors = []
+    if not (email or "").strip():
+        errors.append("Email is required.")
+        return errors
+    try:
+        validate_email(email.strip(), check_deliverability=False)
+    except EmailNotValidError:
+        errors.append("Please enter a valid email address.")
+    return errors

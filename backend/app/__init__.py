@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 
 from app.config import Config
-from app.extensions import cors, init_db, jwt
+from app.extensions import cors, init_db, jwt, limiter
 
 
 def create_app(config_class=Config) -> Flask:
@@ -11,6 +11,7 @@ def create_app(config_class=Config) -> Flask:
     # --- Extensions ---
     init_db(app.config["MONGO_URI"])
     jwt.init_app(app)
+    limiter.init_app(app)
     cors.init_app(
         app,
         resources={r"/api/*": {"origins": app.config["FRONTEND_ORIGIN"]}},
@@ -57,6 +58,18 @@ def create_app(config_class=Config) -> Flask:
     def not_found(_e):
         return jsonify({"error": "Resource not found."}), 404
 
+    @app.errorhandler(429)
+    def ratelimit_exceeded(e):
+        return (
+            jsonify(
+                {
+                    "error": "Rate limit exceeded. Please slow down and try again shortly.",
+                    "details": str(e.description) if hasattr(e, "description") else None,
+                }
+            ),
+            429,
+        )
+
     @app.errorhandler(500)
     def server_error(_e):
         app.logger.exception("Unhandled server error")
@@ -73,5 +86,20 @@ def create_app(config_class=Config) -> Flask:
     @jwt.expired_token_loader
     def expired_token_callback(_jwt_header, _jwt_payload):
         return jsonify({"error": "Session expired. Please log in again."}), 401
+
+    @jwt.token_in_blocklist_loader
+    def check_if_token_revoked(_jwt_header, jwt_payload: dict) -> bool:
+        jti = jwt_payload.get("jti")
+        if not jti:
+            return False
+        from app.extensions import db
+        try:
+            return db.revoked_tokens.find_one({"jti": jti}) is not None
+        except Exception:
+            return False
+
+    @jwt.revoked_token_loader
+    def revoked_token_callback(_jwt_header, _jwt_payload):
+        return jsonify({"error": "Session has been revoked. Please log in again."}), 401
 
     return app

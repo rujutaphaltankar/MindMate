@@ -69,3 +69,28 @@ def to_public_dict(user_doc: dict) -> dict:
         if user_doc.get("created_at")
         else None,
     }
+
+
+def update_password(user_id: str, new_password: str) -> bool:
+    """Updates password for a given user ID."""
+    now = datetime.now(timezone.utc)
+    hashed = hash_password(new_password)
+    try:
+        res = db.users.update_one(
+            {"_id": ObjectId(user_id)},
+            {"$set": {"password_hash": hashed, "updated_at": now}},
+        )
+        return res.modified_count > 0
+    except Exception:
+        return False
+
+
+def update_password_by_email(email: str, new_password: str) -> bool:
+    """Updates password for a given user email."""
+    now = datetime.now(timezone.utc)
+    hashed = hash_password(new_password)
+    res = db.users.update_one(
+        {"email": email.strip().lower()},
+        {"$set": {"password_hash": hashed, "updated_at": now}},
+    )
+    return res.modified_count > 0

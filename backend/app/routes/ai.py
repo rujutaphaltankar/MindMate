@@ -1,6 +1,8 @@
-from flask import Blueprint, jsonify, request
+import json
+from flask import Blueprint, Response, jsonify, request, stream_with_context
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
+from app.extensions import limiter
 from app.models.chat import (
     add_message,
     create_session,
@@ -10,7 +12,13 @@ from app.models.chat import (
     message_to_public,
 )
 from app.models.user import find_user_by_id
-from app.services.ai_service import AIServiceError, analyze_text, generate_chat_reply
+from app.services.ai_service import (
+    AIServiceError,
+    analyze_text,
+    generate_chat_reply,
+    get_available_providers,
+    stream_chat_reply,
+)
 from app.services.safety_service import SAFETY_RESPONSE, classify_message
 from app.services.resource_service import list_resources
 
@@ -20,6 +28,13 @@ DISCLAIMER = (
     "MindMate AI provides general wellness support and is not a substitute for "
     "professional mental health care."
 )
+
+
+@ai_bp.get("/providers")
+@jwt_required()
+def providers():
+    """Returns the list of configured AI models/providers."""
+    return jsonify({"providers": get_available_providers()})
 
 
 @ai_bp.post("/analyze")
@@ -51,10 +66,12 @@ def analyze():
 
 @ai_bp.post("/chat")
 @jwt_required()
+@limiter.limit("30 per minute")
 def chat():
     data = request.get_json(silent=True) or {}
     message = (data.get("message") or "").strip()
     session_id = data.get("session_id")
+    provider = data.get("provider")
     if not message:
         return jsonify({"error": "Message cannot be empty."}), 400
 
@@ -89,7 +106,7 @@ def chat():
         for m in list_messages(session_id, limit=20)
         if m["role"] in ("user", "assistant")
     ]
-    result = generate_chat_reply(message, history)
+    result = generate_chat_reply(message, history, provider=provider)
     add_message(session_id, "assistant", result["reply"])
 
     return jsonify(
@@ -98,7 +115,90 @@ def chat():
             "reply": result["reply"],
             "disclaimer": DISCLAIMER,
             "safety_triggered": False,
+            "provider": result.get("provider"),
         }
+    )
+
+
+@ai_bp.post("/chat/stream")
+@jwt_required()
+@limiter.limit("30 per minute")
+def chat_stream():
+    """
+    Streams companion replies in real-time using Server-Sent Events (SSE).
+    Sends individual token/chunk events and a final completion event.
+    """
+    data = request.get_json(silent=True) or {}
+    message = (data.get("message") or "").strip()
+    session_id = data.get("session_id")
+    provider = data.get("provider")
+
+    if not message:
+        return jsonify({"error": "Message cannot be empty."}), 400
+
+    user_id = get_jwt_identity()
+
+    if session_id:
+        session = get_session(user_id, session_id)
+        if not session:
+            return jsonify({"error": "Chat session not found."}), 404
+    else:
+        session = create_session(user_id)
+        session_id = str(session["_id"])
+
+    safety = classify_message(message)
+    add_message(session_id, "user", message, flagged=(safety["risk"] == "high_risk"))
+
+    if safety["risk"] == "high_risk":
+        reply_text = SAFETY_RESPONSE
+        add_message(session_id, "assistant", reply_text)
+
+        def crisis_events():
+            yield f"data: {json.dumps({'chunk': reply_text, 'done': False})}\n\n"
+            yield f"data: {json.dumps({'done': True, 'session_id': session_id, 'safety_triggered': True, 'crisis_resources': [r for r in list_resources()][:5], 'disclaimer': DISCLAIMER})}\n\n"
+
+        return Response(
+            stream_with_context(crisis_events()),
+            mimetype="text/event-stream",
+            headers={
+                "Cache-Control": "no-cache",
+                "X-Accel-Buffering": "no",
+                "Connection": "keep-alive",
+            },
+        )
+
+    history = [
+        {"role": m["role"], "content": m["content"]}
+        for m in list_messages(session_id, limit=20)
+        if m["role"] in ("user", "assistant")
+    ]
+
+    def generate_events():
+        full_tokens = []
+        try:
+            for chunk in stream_chat_reply(message, history, provider=provider):
+                full_tokens.append(chunk)
+                yield f"data: {json.dumps({'chunk': chunk, 'done': False})}\n\n"
+        except Exception:
+            fallback = (
+                "I'm here with you and listening closely. Sometimes taking a moment to breathe "
+                "helps things settle. What is one small thought you'd like to share next?"
+            )
+            full_tokens.append(fallback)
+            yield f"data: {json.dumps({'chunk': fallback, 'done': False})}\n\n"
+
+        completed_text = "".join(full_tokens).strip()
+        add_message(session_id, "assistant", completed_text)
+        yield f"data: {json.dumps({'done': True, 'session_id': session_id, 'safety_triggered': False, 'disclaimer': DISCLAIMER})}\n\n"
+
+    return Response(
+        stream_with_context(generate_events()),
+        mimetype="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",
+            "Connection": "keep-alive",
+        },
     )
 
 

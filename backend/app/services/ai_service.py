@@ -18,10 +18,16 @@ Every function here enforces the same content rules regardless of backend:
 import json
 import os
 import re
+import time
+from typing import Iterator
 
 AI_PROVIDER = os.getenv("AI_PROVIDER", "rule_based")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 ANTHROPIC_MODEL = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-6")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama3")
 
 _POSITIVE_WORDS = {
     "happy", "great", "good", "excited", "grateful", "calm", "relaxed", "proud",
@@ -345,6 +351,33 @@ def _rule_based_chat(message: str, history: list[dict]) -> str:
     ])
 
 
+def get_available_providers() -> list[dict]:
+    """Returns catalog of supported AI providers and their configuration status."""
+    return [
+        {
+            "id": "rule_based",
+            "name": "MindMate Local (Fast & Empathetic)",
+            "description": "Deterministic, zero-latency on-device listener. Completely private.",
+            "available": True,
+            "is_default": AI_PROVIDER == "rule_based" or not ANTHROPIC_API_KEY,
+        },
+        {
+            "id": "anthropic",
+            "name": "Claude 3.5 Sonnet",
+            "description": "Deeply reflective, human-like dialogue with rich emotional nuance.",
+            "available": bool(ANTHROPIC_API_KEY),
+            "is_default": AI_PROVIDER == "anthropic" and bool(ANTHROPIC_API_KEY),
+        },
+        {
+            "id": "openai",
+            "name": "GPT-4o Mini",
+            "description": "Adaptive, proactive guidance and actionable resets.",
+            "available": bool(OPENAI_API_KEY),
+            "is_default": AI_PROVIDER == "openai" and bool(OPENAI_API_KEY),
+        },
+    ]
+
+
 def _anthropic_chat(message: str, history: list[dict]) -> str:
     import anthropic
 
@@ -361,8 +394,65 @@ def _anthropic_chat(message: str, history: list[dict]) -> str:
     return "".join(block.text for block in response.content if block.type == "text")
 
 
-def generate_chat_reply(message: str, history: list[dict]) -> dict:
-    if AI_PROVIDER == "anthropic" and ANTHROPIC_API_KEY:
+def _stream_anthropic(message: str, history: list[dict]) -> Iterator[str]:
+    import anthropic
+
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    messages = [
+        {"role": h["role"], "content": h["content"]} for h in history[-10:]
+    ] + [{"role": "user", "content": message}]
+    with client.messages.stream(
+        model=ANTHROPIC_MODEL,
+        max_tokens=450,
+        system=_CHAT_SYSTEM_PROMPT,
+        messages=messages,
+    ) as stream:
+        for text in stream.text_stream:
+            yield text
+
+
+def _stream_rule_based(message: str, history: list[dict]) -> Iterator[str]:
+    """
+    Streams rule-based responses in realistic bursts for a natural typing cadence.
+    """
+    full_text = _rule_based_chat(message, history)
+    words = full_text.split(" ")
+    chunk = []
+    for i, word in enumerate(words):
+        chunk.append(word)
+        if len(chunk) >= 2 or i == len(words) - 1:
+            suffix = " " if i < len(words) - 1 else ""
+            yield " ".join(chunk) + suffix
+            chunk = []
+            time.sleep(0.02)
+
+
+def stream_chat_reply(
+    message: str, history: list[dict], provider: str | None = None
+) -> Iterator[str]:
+    """
+    Yields chunks of text for Server-Sent Events (SSE) streaming.
+    Falls back gracefully to rule-based streaming if external API calls fail.
+    """
+    target_provider = provider or AI_PROVIDER
+
+    if target_provider == "anthropic" and ANTHROPIC_API_KEY:
+        try:
+            yield from _stream_anthropic(message, history)
+            return
+        except Exception:
+            yield from _stream_rule_based(message, history)
+            return
+
+    yield from _stream_rule_based(message, history)
+
+
+def generate_chat_reply(
+    message: str, history: list[dict], provider: str | None = None
+) -> dict:
+    target_provider = provider or AI_PROVIDER
+
+    if target_provider == "anthropic" and ANTHROPIC_API_KEY:
         try:
             reply = _anthropic_chat(message, history)
             return {"reply": reply, "provider": "anthropic"}

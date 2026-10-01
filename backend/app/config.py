@@ -43,9 +43,12 @@ class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", JWT_SECRET_KEY)
     RATELIMIT_STORAGE_URI = os.getenv("RATELIMIT_STORAGE_URI", "memory://")
 
-    # --- Email (SMTP) ---
+    # --- Email ---
+    # Provider 1 (recommended): Resend — https://resend.com
+    RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
+    # Provider 2 (fallback): SMTP (Gmail, SendGrid, Outlook, etc.)
     MAIL_SERVER = os.getenv("MAIL_SERVER", "")
     MAIL_PORT = int(os.getenv("MAIL_PORT", 587))
     MAIL_USERNAME = os.getenv("MAIL_USERNAME", "")
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "")
-    MAIL_FROM = os.getenv("MAIL_FROM", "support@mindmate.ai")
+    MAIL_FROM = os.getenv("MAIL_FROM", "noreply@resend.dev")

@@ -1,5 +1,9 @@
+import logging
 from datetime import datetime, timezone
 from flask import Blueprint, current_app, jsonify, request
+
+logger = logging.getLogger("mindmate.auth")
+
 from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
@@ -17,7 +21,7 @@ from app.models.user import (
     update_password_by_email,
     verify_password,
 )
-from app.services.email_service import send_password_reset_email
+from app.services.email_service import send_password_reset_email, send_welcome_email
 from app.utils.tokens import generate_password_reset_token, verify_password_reset_token
 from app.utils.validators import (
     validate_email_format,
@@ -49,6 +53,12 @@ def register():
     user_id = str(user_doc["_id"])
     access_token = create_access_token(identity=user_id)
     refresh_token = create_refresh_token(identity=user_id)
+
+    # Send a non-blocking welcome email (errors are logged, not raised)
+    try:
+        send_welcome_email(user_doc["email"], user_doc.get("name", ""))
+    except Exception:
+        logger.warning("Welcome email dispatch failed for %s", user_doc["email"])
 
     return (
         jsonify(

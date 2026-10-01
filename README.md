@@ -1,45 +1,51 @@
-# MindMate AI
+﻿# MindMate AI
 
-MindMate AI is a full-stack mental wellness application that combines mood tracking, private journaling, AI-assisted reflections, wellness tools, community features, and admin moderation in one workspace.
+MindMate AI is a full-stack mental wellness application combining mood tracking, private journaling,
+AI-assisted reflection, wellness tools, anonymous community features, and admin moderation — all in one workspace.
 
-This repository currently contains:
+> MindMate AI is not a medical device, therapist, or emergency service. It is designed for
+> non-clinical support and should not replace professional mental health care.
 
-- a Flask REST API in `backend/`
-- a React + Vite frontend in `frontend/`
-- MongoDB-backed persistence for app data
-- Docker and CI setup for local development and deployment
-
-> MindMate AI is not a medical device, therapist, psychologist, psychiatrist, or emergency service. It is designed for non-clinical support and should not replace professional help.
+**Live frontend:** https://mind-mate-rujuta1.vercel.app
 
 ---
 
 ## Features
 
-- Mood tracking and trend views
-- Private journal CRUD with search and filtering
-- AI companion chat with safety screening
-- Non-clinical sentiment/emotion analysis for journal entries
-- Wellness toolkit with breathing and meditation support
-- Insights and recommendations
-- Anonymous community posts and comments
-- Crisis resource directory and admin moderation tools
-- JWT-based authentication and privacy controls
+| Area | What it does |
+|:---|:---|
+| **Mood Tracking** | Log mood, stress, energy, sleep. Trend charts (daily / weekly / monthly). |
+| **Journal** | Private CRUD entries with search, tags, date filter, and AI emotion analysis. |
+| **AI Companion** | Empathetic chat with SSE streaming, multi-provider support, dual-layer safety. |
+| **Wellness Toolkit** | Animated 4-7-8 breathing, guided meditation categories, completion tracking. |
+| **Insights** | Non-clinical pattern summaries and personalised recommendations. |
+| **Community** | Anonymous posts and comments, likes, reporting, search. |
+| **Crisis Safety** | Safety classifier on every AI message and community post; crisis resource directory. |
+| **Auth & Security** | JWT auth (access + refresh), rate limiting, token blocklisting, bcrypt passwords. |
+| **Password Reset** | Signed token email flow (30-minute expiry) via Resend or SMTP. |
+| **Welcome Emails** | Branded HTML welcome sent on registration. |
+| **Privacy / GDPR** | Data export endpoint, consent-gated AI, true deletion, anonymous community. |
+| **Admin** | Report review dashboard; never exposes private journals. |
 
 ---
 
 ## Tech Stack
 
-- Frontend: React 18, Vite, Tailwind CSS, React Router, Axios, Recharts
-- Backend: Python 3.10+, Flask 3.x, Flask-CORS, Flask-JWT-Extended, PyMongo
-- Database: MongoDB 7
-- Testing: pytest + mongomock for backend, Vitest + Testing Library for frontend
-- Deployment: Docker, docker-compose, GitHub Actions CI
+| Layer | Technology |
+|:---|:---|
+| Frontend | React 18, Vite, Tailwind CSS, React Router, Axios, Recharts |
+| Backend | Python 3.12, Flask 3.x, Flask-JWT-Extended, Flask-Limiter, Flask-CORS, PyMongo |
+| Email | Resend (primary) / SMTP fallback (Gmail, SendGrid) |
+| Database | MongoDB 7 (local) / MongoDB Atlas (production) |
+| AI | Anthropic Claude, OpenAI, Ollama, or rule-based fallback |
+| Testing | pytest + mongomock (backend), Vitest + Testing Library (frontend) |
+| Deployment | Docker, docker-compose, GitHub Actions CI, Vercel (frontend) |
 
 ---
 
 ## Project Structure
 
-```text
+```
 mindmate-ai-complete/
 ├── backend/
 │   ├── app/
@@ -47,8 +53,8 @@ mindmate-ai-complete/
 │   │   ├── config.py
 │   │   ├── extensions.py
 │   │   ├── models/
-│   │   ├── routes/
-│   │   ├── services/
+│   │   ├── routes/          # auth, mood, journal, ai, community, privacy, admin
+│   │   ├── services/        # ai_service, email_service, safety_service
 │   │   └── utils/
 │   ├── tests/
 │   ├── scripts/
@@ -58,23 +64,25 @@ mindmate-ai-complete/
 │   └── run.py
 ├── frontend/
 │   ├── src/
+│   │   ├── pages/           # Dashboard, MoodTracker, Journal, Companion, ...
+│   │   ├── components/
+│   │   ├── context/         # AuthContext, ThemeContext
+│   │   └── api/
 │   ├── public/
 │   ├── .env.example
 │   ├── Dockerfile
 │   ├── nginx.conf
 │   ├── package.json
-│   ├── vite.config.js
-│   └── tailwind.config.js
+│   └── vite.config.js
 ├── .github/
-│   └── workflows/
-│       └── ci.yml
+│   └── workflows/ci.yml
 ├── data/
 ├── docs/
+│   └── roadmap.md
 ├── docker-compose.yml
 ├── CONTRIBUTING.md
 ├── LICENSE
-├── README.md
-└── .gitignore
+└── README.md
 ```
 
 ---
@@ -83,48 +91,41 @@ mindmate-ai-complete/
 
 ### Prerequisites
 
-- Python 3.10+
-- Node.js 18+
+- Python 3.12+
+- Node.js 20+
 - npm
 - MongoDB running locally or accessible via MongoDB Atlas
 
-### 1) Backend setup
+### 1) Backend
 
 ```bash
 cd backend
 python -m venv .venv
 ```
 
-On Windows PowerShell:
-
+**Windows PowerShell:**
 ```powershell
 .\.venv\Scripts\Activate.ps1
-```
-
-On macOS/Linux:
-
-```bash
-source .venv/bin/activate
-```
-
-Then install dependencies and configure environment variables:
-
-```bash
 pip install -r requirements.txt
 copy .env.example .env
 ```
 
-Update `backend/.env` with a secure `JWT_SECRET_KEY` and your MongoDB URI if needed.
+**macOS / Linux:**
+```bash
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+```
 
-Start the backend:
+Edit `backend/.env` — at minimum set a strong `JWT_SECRET_KEY`. Then:
 
 ```bash
 python run.py
 ```
 
-The API will run at `http://localhost:5000`.
+The API runs at `http://localhost:5000`.
 
-### 2) Frontend setup
+### 2) Frontend
 
 ```bash
 cd frontend
@@ -132,7 +133,7 @@ npm install
 npm run dev
 ```
 
-The frontend will run at `http://localhost:5173` and proxy `/api` requests to the Flask backend in development.
+The frontend runs at `http://localhost:5173` and proxies `/api` to the Flask backend.
 
 ---
 
@@ -140,23 +141,25 @@ The frontend will run at `http://localhost:5173` and proxy `/api` requests to th
 
 ### Backend (`backend/.env`)
 
-```env
-FLASK_DEBUG=1
-PORT=5000
-JWT_SECRET_KEY=replace-with-a-long-random-secret
-JWT_ACCESS_TOKEN_EXPIRES_MINUTES=60
-JWT_REFRESH_TOKEN_EXPIRES_DAYS=30
-MONGO_URI=mongodb://localhost:27017/mindmate_ai
-FRONTEND_ORIGIN=http://localhost:5173
-AI_PROVIDER=rule_based
-ANTHROPIC_API_KEY=
-```
+| Variable | Required | Description |
+|:---|:---|:---|
+| `JWT_SECRET_KEY` | Yes | Long random secret for JWTs |
+| `SECRET_KEY` | Yes | Flask secret (can equal JWT_SECRET_KEY) |
+| `MONGO_URI` | Yes | MongoDB connection string |
+| `FRONTEND_ORIGIN` | Yes | Allowed CORS origin (Vercel URL in prod) |
+| `FLASK_DEBUG` | No | `1` for dev, `0` for production |
+| `PORT` | No | Default 5000 |
+| `AI_PROVIDER` | No | `rule_based` (default), `anthropic`, `openai` |
+| `ANTHROPIC_API_KEY` | If AI_PROVIDER=anthropic | Claude API key |
+| `OPENAI_API_KEY` | If AI_PROVIDER=openai | OpenAI API key |
+| `RESEND_API_KEY` | Recommended | Resend email API key (3 000 emails/month free) |
+| `MAIL_FROM` | With Resend | Verified sender address |
+| `MAIL_SERVER` | SMTP fallback | e.g. `smtp.gmail.com` |
+| `MAIL_USERNAME` | SMTP fallback | Your email / SMTP username |
+| `MAIL_PASSWORD` | SMTP fallback | App password |
+| `RATELIMIT_STORAGE_URI` | No | `memory://` (dev) or Redis URI (prod) |
 
-Notes:
-
-- `AI_PROVIDER` defaults to `rule_based`, which works without an external API key.
-- Set `AI_PROVIDER=anthropic` and provide `ANTHROPIC_API_KEY` to use the Claude integration.
-- The backend also exposes `/api/health` for quick service checks.
+See `backend/.env.example` for a complete template.
 
 ### Frontend (`frontend/.env`)
 
@@ -164,21 +167,37 @@ Notes:
 VITE_API_URL=http://localhost:5000/api
 ```
 
+In production, set this to your deployed backend URL (e.g. Railway or Fly.io).
+
+---
+
+## Email Setup (Resend — Recommended)
+
+1. Sign up free at [resend.com](https://resend.com) — 3 000 emails/month, no credit card needed.
+2. Create an API key in the Resend dashboard.
+3. Set `RESEND_API_KEY=re_...` in your `.env` or hosting environment variables.
+4. Set `MAIL_FROM=noreply@yourdomain.com` (verify your domain in Resend, or use `onboarding@resend.dev` for testing).
+
+**Gmail SMTP (alternative):**
+1. Enable 2-Step Verification on your Google account.
+2. Create an App Password at [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords).
+3. Set `MAIL_SERVER=smtp.gmail.com`, `MAIL_PORT=587`, `MAIL_USERNAME=you@gmail.com`, `MAIL_PASSWORD=<app-password>`.
+
+Without either provider configured, emails are printed to the server logs (safe for local dev and CI).
+
 ---
 
 ## Docker
-
-This repo includes a Docker Compose setup for running the app end-to-end.
 
 ```bash
 docker compose up --build
 ```
 
-Services:
-
-- Frontend: `http://localhost:5173`
-- Backend: `http://localhost:5000`
-- MongoDB: `localhost:27017`
+| Service | URL |
+|:---|:---|
+| Frontend | http://localhost:5173 |
+| Backend | http://localhost:5000 |
+| MongoDB | localhost:27017 |
 
 ---
 
@@ -200,68 +219,85 @@ npm test
 npm run build
 ```
 
-CI is configured in `.github/workflows/ci.yml` to run backend tests, frontend tests, and the frontend build automatically.
+CI runs all of the above automatically on every push to `main` via `.github/workflows/ci.yml`.
 
 ---
 
 ## Admin Setup
 
-To give a user admin access, run:
+To promote a user to admin:
 
 ```bash
 cd backend
 python scripts/make_admin.py user@example.com
 ```
 
-This promotes the specified user to the `admin` role in the application.
+---
+
+## Deployment
+
+### Frontend (Vercel)
+Already deployed at https://mind-mate-rujuta1.vercel.app.
+
+To connect a backend:
+1. Set `VITE_API_URL=https://<your-backend-url>/api` in Vercel → Settings → Environment Variables.
+2. Redeploy.
+
+### Backend (Railway — recommended)
+1. Go to [railway.app](https://railway.app) → New Project → Deploy from GitHub.
+2. Set **Root Directory** to `backend`.
+3. Set **Start Command**: `gunicorn --bind 0.0.0.0:$PORT --workers 2 run:app`
+4. Add environment variables (see table above).
+
+### Backend (Fly.io)
+```bash
+cd backend
+flyctl auth login
+flyctl launch
+flyctl secrets set JWT_SECRET_KEY=... MONGO_URI=... FRONTEND_ORIGIN=https://mind-mate-rujuta1.vercel.app
+flyctl deploy
+```
+
+### MongoDB (Atlas)
+Use the free M0 cluster. Set Network Access to `0.0.0.0/0` for Railway/Fly dynamic IPs.
+Copy the connection string to `MONGO_URI`.
 
 ---
 
-## Deployment Notes
+## Security & Privacy
 
-- Deploy the backend to any host that can run Flask/Gunicorn.
-- Deploy the frontend as a static Vite build, or use the included Nginx container.
-- Set `JWT_SECRET_KEY`, `MONGO_URI`, `FRONTEND_ORIGIN`, and optional AI provider settings in production.
-- Update the seeded crisis resources from the admin dashboard or resource service after deployment.
-
----
-
-## Safety and Scope
-
-MindMate AI includes content safety checks for chat and community interactions. It is focused on supportive, non-clinical guidance and should not be used as a substitute for crisis response or professional mental health care.
-
-If someone is in immediate danger or at risk of self-harm, contact emergency services or a local crisis line right away.
+- **Password hashing** — bcrypt; JWTs accepted from `Authorization` header only (no cookies, reducing CSRF exposure).
+- **Token revocation** — Logout blocklists the JWT JTI in MongoDB with a TTL index.
+- **Rate limiting** — `/register`, `/login`, `/forgot-password`, and AI endpoints are rate-limited via Flask-Limiter.
+- **Data isolation** — Every query scoped to `user_id` at the database level; cross-user isolation verified by tests.
+- **Consent-gated AI** — Journal analysis only runs when `privacy_settings.allow_ai_analysis` is enabled.
+- **Anonymous community** — Posts never expose the author name or email.
+- **Admin boundaries** — Admins access aggregate stats and moderation tools only; no direct journal access.
+- **True deletion** — Full account and journal deletion endpoints; no soft-delete trap.
+- **GDPR / CCPA** — `/api/privacy/export` returns a complete JSON export of a user's data on request.
 
 ---
 
-## License
+## Safety
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+MindMate AI applies a dual-layer safety classifier before every AI response and community post:
+- **Layer 1** — Deterministic keyword and pattern matching for explicit crisis signals.
+- **Layer 2** — Nuanced semantic detection for passive crisis cues.
 
----
+When a crisis signal is detected, the response surfaces the crisis resource directory instead of a chat reply.
 
-## 🔐 Security & Privacy
-
-- **Password hashing** — bcrypt; JWTs read only from the `Authorization` header.
-- **Data isolation** — Every journal/mood/chat/activity query is scoped to `user_id` at the
-  database level, verified by cross-user isolation tests.
-- **Consent-gated AI** — Journal analysis only runs with explicit consent
-  (`privacy_settings.allow_ai_analysis`).
-- **Anonymous community** — Posts never expose the author's name or email.
-- **Admin boundaries** — Admins get aggregate stats and moderation tools only; never direct
-  journal access.
-- **True deletion** — Full account/journal deletion endpoints, no soft-delete trap.
+If someone is in immediate danger, contact emergency services or a local crisis line right away.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for development setup, PR guidelines, and the
 Responsible AI invariants that all contributors must preserve.
 
 ---
 
-## 📄 License
+## License
 
 MIT — see [`LICENSE`](LICENSE).
 

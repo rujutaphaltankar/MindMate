@@ -236,6 +236,19 @@ python scripts/make_admin.py user@example.com
 
 ## Deployment
 
+### Supabase schema
+
+`supabase/schema.sql` defines the Supabase tables, signup profile trigger, and
+row-level security policies for MindMate data. Apply it once in the Supabase
+SQL Editor before migrating the app. It does not migrate existing MongoDB data
+or switch the current Flask API to Supabase; the backend currently still uses
+MongoDB and its JWT authentication. Those application changes must be completed
+before Supabase can replace the existing backend.
+
+The frontend may use only the Supabase publishable/anon key. Keep any Supabase
+service-role key in the backend environment only; never add it to frontend
+environment variables or commit it.
+
 ### Frontend (Vercel)
 Already deployed at https://mind-mate-rujuta1.vercel.app.
 

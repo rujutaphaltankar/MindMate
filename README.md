@@ -125,6 +125,9 @@ python run.py
 
 The API runs at `http://localhost:5000`.
 
+Check that the backend is reachable at `http://localhost:5000/api/health`; it
+should return `{"status":"ok","service":"mindmate-ai-backend"}`.
+
 ### 2) Frontend
 
 ```bash
@@ -133,7 +136,11 @@ npm install
 npm run dev
 ```
 
-The frontend runs at `http://localhost:5173` and proxies `/api` to the Flask backend.
+The frontend runs at `http://localhost:5173`. By default, Vite proxies `/api`
+requests to `http://localhost:5000`, so the frontend and backend work together
+without any extra configuration. To call a backend at another address, set
+`VITE_API_URL` in `frontend/.env` to its full API base URL (for example,
+`https://api.example.com/api`).
 
 ---
 
@@ -167,7 +174,11 @@ See `backend/.env.example` for a complete template.
 VITE_API_URL=http://localhost:5000/api
 ```
 
-In production, set this to your deployed backend URL (e.g. Railway or Fly.io).
+`VITE_API_URL` is optional for local development: omit it to use Vite's `/api`
+proxy, or set it to the backend's `/api` URL to call Flask directly. For
+separately hosted production frontends, set it to the deployed backend's full
+API base URL (for example, `https://<your-backend-domain>/api`). This value is
+embedded in the frontend at build time, so rebuild/redeploy after changing it.
 
 ---
 
@@ -193,10 +204,17 @@ Without either provider configured, emails are printed to the server logs (safe 
 docker compose up --build
 ```
 
+In Docker, the frontend uses `/api` on the same origin and Nginx forwards those
+requests (including streamed AI chat) to the `backend` service. No
+`VITE_API_URL` is required for this setup. Set a strong `JWT_SECRET_KEY` in
+your environment before deploying; the Compose fallback is for local
+development only.
+
 | Service | URL |
 |:---|:---|
 | Frontend | http://localhost:5173 |
-| Backend | http://localhost:5000 |
+| Backend API | http://localhost:5000/api |
+| Backend health check | http://localhost:5000/api/health |
 | MongoDB | localhost:27017 |
 
 ---
@@ -252,15 +270,21 @@ environment variables or commit it.
 ### Frontend (Vercel)
 Already deployed at https://mind-mate-rujuta1.vercel.app.
 
-To connect a backend:
-1. Set `VITE_API_URL=https://<your-backend-url>/api` in Vercel → Settings → Environment Variables.
-2. Redeploy.
+The frontend needs a reachable Flask backend; the Vite development proxy is
+not used by Vercel. In Vercel → **Settings → Environment Variables**, set
+`VITE_API_URL` to `https://<your-backend-domain>/api` for the environments
+you deploy, then redeploy. Confirm that
+`https://<your-backend-domain>/api/health` returns a healthy response.
 
 ### Backend (Railway — recommended)
 1. Go to [railway.app](https://railway.app) → New Project → Deploy from GitHub.
 2. Set **Root Directory** to `backend`.
 3. Set **Start Command**: `gunicorn --bind 0.0.0.0:$PORT --workers 2 run:app`
-4. Add environment variables (see table above).
+4. Add the required environment variables from the table above, including
+   `JWT_SECRET_KEY`, `MONGO_URI`, and
+   `FRONTEND_ORIGIN=https://mind-mate-rujuta1.vercel.app`.
+5. After deployment, set Vercel's `VITE_API_URL` to
+   `https://<your-Railway-domain>/api` and redeploy the frontend.
 
 ### Backend (Fly.io)
 ```bash
